@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VYBE — Kendi Tarzında Oyna</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -54,6 +53,9 @@ select,input{width:100%;padding:14px;background:#21172d;color:white;border:1px s
 .secondary{background:#342144;color:white;border:1px solid #8052a0;border-radius:7px;padding:13px;width:100%;margin-top:10px}
 .secondary:hover{background:#503065}
 .status{color:#e4a0ff;font-size:13px;margin-top:14px;line-height:1.7}
+.game-screen{text-align:center;padding:35px 10px}
+.game-logo{font-size:48px;font-weight:900;letter-spacing:8px;background:linear-gradient(90deg,#b45aff,#ff55ae);background-clip:text;-webkit-background-clip:text;color:transparent;margin-bottom:20px}
+.game-wait{margin-top:25px;padding:22px;background:#261635;border:1px solid #a94cff55;border-radius:12px}
 footer{padding:30px;text-align:center;color:#777;border-top:1px solid #ffffff15;font-size:12px;letter-spacing:2px}
 @media(max-width:600px){
 header{padding:0 5%}
@@ -127,14 +129,12 @@ nav a{font-size:10px}
 
       <label>OYUNCU SAYISI SEÇENEĞİ</label>
       <div class="modes">
-        <button class="mode selected" id="fixedMode"
-          onclick="chooseMode('fixed')">
+        <button class="mode selected" id="fixedMode" onclick="chooseMode('fixed')">
           SABİT OYUNCU SAYISI
           <small>Oyuna katılacak toplam oyuncu sayısını belirle.</small>
         </button>
 
-        <button class="mode" id="flexMode"
-          onclick="chooseMode('flex')">
+        <button class="mode" id="flexMode" onclick="chooseMode('flex')">
           SERBEST OYUNCU SAYISI
           <small>En az 2, en fazla 8 oyuncuyla istediğin zaman başla.</small>
         </button>
@@ -161,7 +161,7 @@ nav a{font-size:10px}
     <div class="panel" id="join">
       <h3>OYUN ODASINA KATIL</h3>
       <label>ODA KODU</label>
-      <input id="joinCode" maxlength="6" placeholder="6 haneli oda kodunu gir">
+      <input id="joinCode" maxlength="6" placeholder="6 karakterli oda kodunu gir">
       <button class="primary full" id="joinButton" onclick="joinRoom()">
         ODAYA KATIL
       </button>
@@ -188,8 +188,7 @@ nav a{font-size:10px}
         OYUNCU LİSTESİNİ YENİLE
       </button>
 
-      <button class="primary full" id="startButton"
-        onclick="startGame()" disabled>
+      <button class="primary full" id="startButton" onclick="startGame()" disabled>
         OYUNU BAŞLAT
       </button>
 
@@ -198,17 +197,29 @@ nav a{font-size:10px}
       </p>
 
       <div class="notice">
-        Çevrimiçi oda sistemi çalışıyor. Kartların oynanması ve hamlelerin
-        tüm oyuncularla eş zamanlı paylaşılması sonraki geliştirme aşamasında eklenecek.
+        Oyuncular aynı çevrimiçi odada buluşabilir. Oyun başlatıldığında
+        tüm oyuncular otomatik olarak oyun ekranına geçer.
       </div>
     </div>
 
     <div class="panel" id="game">
-      <h3>VYBE OYUNU</h3>
-      <p class="muted">
-        Oyun alanı, sonraki geliştirme aşamasında hazırlanacak.
-      </p>
-      <p class="status">OYUN OTURUMU OLUŞTURULDU</p>
+      <div class="game-screen">
+        <div class="game-logo">VYBE.</div>
+        <h3>OYUN BAŞLADI!</h3>
+        <p class="muted">
+          Bütün oyuncular oyun alanına geçti.
+        </p>
+
+        <div class="game-wait">
+          <p class="status">OYUN ODASI</p>
+          <h2 id="gameRoomCode">------</h2>
+          <p class="muted" id="gamePlayerCount"></p>
+        </div>
+
+        <p class="status">
+          Kart dağıtımı ve oyun sırası bir sonraki geliştirme aşamasında eklenecek.
+        </p>
+      </div>
     </div>
 
   </div>
@@ -224,10 +235,7 @@ nav a{font-size:10px}
 const SUPABASE_URL = "https://ovsdzyhsypspgnjfettr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_xQE0UUxS5zr_iSFcipguoQ_4NAx7wkU";
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let mode = "fixed";
 let room = null;
@@ -391,7 +399,7 @@ async function joinRoom() {
 
     if (!alreadyJoined) {
       if (existingPlayers.length >= foundRoom.max_players) {
-        throw new Error("Bu oda dolu. Başka bir odaya katılabilirsin.");
+        throw new Error("Bu oda dolu.");
       }
 
       const { error: joinError } = await db
@@ -435,9 +443,26 @@ async function openLobby() {
 }
 
 async function refreshLobby() {
-  if (!room) return;
+  if (!room || !currentUser) return;
 
   try {
+    // Önce odanın güncel durumunu kontrol et.
+    const { data: latestRoom, error: roomError } = await db
+      .from("rooms")
+      .select("*")
+      .eq("id", room.id)
+      .single();
+
+    if (roomError) throw roomError;
+
+    room = latestRoom;
+
+    // Oda kurucusu oyunu başlattıysa herkes oyun ekranına geçer.
+    if (room.status === "playing") {
+      await showGameScreen();
+      return;
+    }
+
     const { data: playerList, error } = await db
       .from("room_players")
       .select("*")
@@ -457,9 +482,7 @@ async function refreshLobby() {
     playerList.forEach(player => {
       const item = document.createElement("div");
 
-      item.className = player.is_host
-        ? "player host"
-        : "player";
+      item.className = player.is_host ? "player host" : "player";
 
       item.textContent =
         player.display_name +
@@ -482,36 +505,82 @@ async function refreshLobby() {
 
     const startButton = document.getElementById("startButton");
     startButton.disabled = !canStart || !isHost;
-    startButton.style.opacity =
-      canStart && isHost ? "1" : "0.4";
+    startButton.style.opacity = canStart && isHost ? "1" : "0.4";
 
     document.getElementById("startMessage").textContent =
       !isHost
         ? "Oda kurucusunun oyunu başlatması bekleniyor."
         : canStart
-          ? "Her şey hazır! Oda kurucusu oyunu başlatabilir."
+          ? "Her şey hazır! Oyunu başlatabilirsin."
           : room.mode === "fixed"
             ? "Seçilen oyuncu sayısının tamamlanması bekleniyor."
             : "Oyunu başlatmak için en az 2 oyuncu gerekli.";
 
   } catch (error) {
-    setStatus("startMessage", "Oyuncu listesi yenilenemedi: " + error.message);
+    setStatus("startMessage", "Oda bilgileri yenilenemedi: " + error.message);
   }
 }
 
-function copyRoomCode() {
-  if (!room) return;
+async function showGameScreen() {
+  if (refreshTimer) {
+    clearInterval(refreshTimer);
+    refreshTimer = null;
+  }
 
-  navigator.clipboard.writeText(room.code)
-    .then(() => alert("Oda kodu kopyalandı!"))
-    .catch(() => alert("Oda kodun: " + room.code));
-}
+  const { data: playerList, error } = await db
+    .from("room_players")
+    .select("*")
+    .eq("room_id", room.id);
 
-function startGame() {
-  if (!room) return;
-  if (room.host_id !== currentUser.id) return;
+  if (error) {
+    console.error("Oyuncular alınamadı:", error.message);
+  }
+
+  document.getElementById("gameRoomCode").textContent = room.code;
+  document.getElementById("gamePlayerCount").textContent =
+    (playerList ? playerList.length : 0) + " oyuncu bu odada.";
 
   showPanel("game");
+}
+
+async function copyRoomCode() {
+  if (!room) return;
+
+  try {
+    await navigator.clipboard.writeText(room.code);
+    alert("Oda kodu kopyalandı!");
+  } catch {
+    alert("Oda kodun: " + room.code);
+  }
+}
+
+async function startGame() {
+  if (!room || !currentUser) return;
+  if (room.host_id !== currentUser.id) return;
+
+  const button = document.getElementById("startButton");
+  button.disabled = true;
+  setStatus("startMessage", "Oyun başlatılıyor...");
+
+  try {
+    const { data, error } = await db
+      .from("rooms")
+      .update({ status: "playing" })
+      .eq("id", room.id)
+      .eq("host_id", currentUser.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    room = data;
+    await showGameScreen();
+
+  } catch (error) {
+    alert("Oyun başlatılamadı: " + error.message);
+    button.disabled = false;
+    await refreshLobby();
+  }
 }
 
 window.addEventListener("beforeunload", () => {
