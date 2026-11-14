@@ -47,9 +47,11 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -1
+  pointer-events; none;
+  
   background:
-    linear-gradient(rgba(8,5,20,.0.5), rgba(8,5,20,0.25)),
+    linear-gradient(rgba(8,5,20,.0.12), rgba(8,5,20,0.30)),
     url("arena-bg.png") center center / cover no-repeat;
   animation: arenaMove 22s ease-in-out infinite alternate;
   transform: scale(1.04);
