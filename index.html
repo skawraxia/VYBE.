@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VYBE — Play Your Way</title>
+<title>VYBE — Kendi Tarzında Oyna</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -72,142 +72,143 @@ nav a{font-size:10px}
 <header>
   <div class="logo">VYBE.</div>
   <nav>
-    <a href="#home">HOME</a>
-    <a href="#about">ABOUT</a>
-    <a href="#arena">PLAY</a>
+    <a href="#home">ANA SAYFA</a>
+    <a href="#about">HAKKINDA</a>
+    <a href="#arena">OYNA</a>
   </nav>
 </header>
 
 <main>
 
 <section class="hero" id="home">
-  <div class="tag">STRATEGY • COMPETITION • FUN</div>
+  <div class="tag">STRATEJİ • REKABET • EĞLENCE</div>
   <h1>VYBE</h1>
-  <h2>PLAY YOUR WAY.</h2>
+  <h2>KENDİ TARZINDA OYNA.</h2>
   <p>
-    Think ahead. Make your move.
-    Every card changes the game.
-    Are you ready to find your VYBE?
+    Hamlelerini önceden düşün.
+    Doğru zamanda kararını ver.
+    Her kart oyunun gidişatını değiştirebilir.
+    Kendi VYBE'ını bulmaya hazır mısın?
   </p>
   <button class="primary"
     onclick="document.getElementById('arena').scrollIntoView({behavior:'smooth'})">
-    PLAY NOW
+    HEMEN OYNA
   </button>
 </section>
 
 <section class="section" id="about">
-  <h2>MORE THAN A CARD GAME.</h2>
+  <h2>BİR KART OYUNUNDAN DAHA FAZLASI.</h2>
   <p class="muted">
-    It's not just about the cards you hold.
-    It's about the moves you make.
+    Önemli olan yalnızca elindeki kartlar değil.
+    Önemli olan yaptığın hamleler.
   </p>
 </section>
 
 <section class="section" id="arena">
-  <h2>VYBE ARENA</h2>
-  <p class="muted">Choose your game mode.</p>
+  <h2>VYBE OYUN ALANI</h2>
+  <p class="muted">Nasıl oynamak istediğini seç.</p>
 
   <div class="arena">
 
     <div class="game-options">
       <button class="option" onclick="showPanel('create')">
-        <h3>CREATE ROOM</h3>
-        <p>Start your own game.</p>
+        <h3>ODA OLUŞTUR</h3>
+        <p>Kendi oyun odanı kur.</p>
       </button>
 
       <button class="option" onclick="showPanel('join')">
-        <h3>JOIN ROOM</h3>
-        <p>Enter a room code.</p>
+        <h3>ODAYA KATIL</h3>
+        <p>Oda kodunu girerek oyuna katıl.</p>
       </button>
     </div>
 
     <div class="panel" id="create">
-      <h3>CREATE YOUR ROOM</h3>
+      <h3>YENİ ODA OLUŞTUR</h3>
 
-      <label>PLAYER MODE</label>
+      <label>OYUNCU SAYISI SEÇENEĞİ</label>
       <div class="modes">
         <button class="mode selected" id="fixedMode"
           onclick="chooseMode('fixed')">
-          FIXED PLAYERS
-          <small>Choose how many players you want.</small>
+          SABİT OYUNCU SAYISI
+          <small>Oyuna katılacak toplam oyuncu sayısını belirle.</small>
         </button>
 
         <button class="mode" id="flexMode"
           onclick="chooseMode('flex')">
-          FLEXIBLE
-          <small>Start whenever you want, with 2–8 players.</small>
+          SERBEST OYUNCU SAYISI
+          <small>En az 2, en fazla 8 oyuncuyla istediğin zaman başla.</small>
         </button>
       </div>
 
       <div id="countArea">
-        <label>PLAYER COUNT</label>
+        <label>TOPLAM OYUNCU SAYISI</label>
         <select id="playerCount">
-          <option value="2">2 PLAYERS</option>
-          <option value="3">3 PLAYERS</option>
-          <option value="4">4 PLAYERS</option>
-          <option value="5">5 PLAYERS</option>
-          <option value="6">6 PLAYERS</option>
-          <option value="7">7 PLAYERS</option>
-          <option value="8">8 PLAYERS</option>
+          <option value="2">2 OYUNCU</option>
+          <option value="3">3 OYUNCU</option>
+          <option value="4">4 OYUNCU</option>
+          <option value="5">5 OYUNCU</option>
+          <option value="6">6 OYUNCU</option>
+          <option value="7">7 OYUNCU</option>
+          <option value="8">8 OYUNCU</option>
         </select>
       </div>
 
       <button class="primary full" id="createButton" onclick="createRoom()">
-        CREATE ROOM
+        ODA OLUŞTUR
       </button>
     </div>
 
     <div class="panel" id="join">
-      <h3>JOIN A ROOM</h3>
-      <label>ROOM CODE</label>
-      <input id="joinCode" maxlength="6" placeholder="Enter your room code">
+      <h3>OYUN ODASINA KATIL</h3>
+      <label>ODA KODU</label>
+      <input id="joinCode" maxlength="6" placeholder="6 haneli oda kodunu gir">
       <button class="primary full" id="joinButton" onclick="joinRoom()">
-        JOIN GAME
+        ODAYA KATIL
       </button>
       <p class="status" id="joinMessage"></p>
     </div>
 
     <div class="panel" id="lobby">
-      <h3>WAITING ROOM</h3>
+      <h3>ODA BEKLEME ALANI</h3>
       <p class="muted" id="roomModeText"></p>
 
       <div class="room-code">
-        ROOM CODE
+        ODA KODU
         <strong id="roomCode">------</strong>
       </div>
 
       <button class="secondary" onclick="copyRoomCode()">
-        COPY ROOM CODE
+        ODA KODUNU KOPYALA
       </button>
 
       <p class="muted" id="playerStatus"></p>
       <div class="players" id="players"></div>
 
       <button class="secondary" onclick="refreshLobby()">
-        REFRESH PLAYERS
+        OYUNCU LİSTESİNİ YENİLE
       </button>
 
       <button class="primary full" id="startButton"
         onclick="startGame()" disabled>
-        START GAME
+        OYUNU BAŞLAT
       </button>
 
       <p class="status" id="startMessage">
-        At least 2 players are needed.
+        Oyunu başlatmak için en az 2 oyuncu gerekli.
       </p>
 
       <div class="notice">
-        Online lobby is connected. Game cards and synchronized moves
-        will be added in the next development stage.
+        Çevrimiçi oda sistemi çalışıyor. Kartların oynanması ve hamlelerin
+        tüm oyuncularla eş zamanlı paylaşılması sonraki geliştirme aşamasında eklenecek.
       </div>
     </div>
 
     <div class="panel" id="game">
-      <h3>VYBE GAME</h3>
+      <h3>VYBE OYUNU</h3>
       <p class="muted">
-        Your game table is ready for the next development lesson.
+        Oyun alanı, sonraki geliştirme aşamasında hazırlanacak.
       </p>
-      <p class="status">GAME SESSION CREATED</p>
+      <p class="status">OYUN OTURUMU OLUŞTURULDU</p>
     </div>
 
   </div>
@@ -216,7 +217,7 @@ nav a{font-size:10px}
 </main>
 
 <footer>
-  VYBE © 2026 — PLAY YOUR WAY.
+  VYBE © 2026 — KENDİ TARZINDA OYNA.
 </footer>
 
 <script>
@@ -324,7 +325,7 @@ async function createRoom() {
     }
 
     if (!createdRoom) {
-      throw new Error("Could not generate a unique room code.");
+      throw new Error("Benzersiz bir oda kodu oluşturulamadı.");
     }
 
     const { error: playerError } = await db
@@ -332,7 +333,7 @@ async function createRoom() {
       .insert({
         room_id: createdRoom.id,
         user_id: currentUser.id,
-        display_name: "PLAYER",
+        display_name: "OYUNCU",
         is_host: true
       });
 
@@ -342,7 +343,7 @@ async function createRoom() {
     await openLobby();
 
   } catch (error) {
-    alert("Room creation failed: " + error.message);
+    alert("Oda oluşturulamadı: " + error.message);
   } finally {
     button.disabled = false;
   }
@@ -354,12 +355,12 @@ async function joinRoom() {
     .value.trim().toUpperCase();
 
   if (code.length !== 6) {
-    setStatus("joinMessage", "Please enter a valid 6-character code.");
+    setStatus("joinMessage", "Lütfen 6 karakterli geçerli bir oda kodu gir.");
     return;
   }
 
   button.disabled = true;
-  setStatus("joinMessage", "Connecting to room...");
+  setStatus("joinMessage", "Odaya bağlanılıyor...");
 
   try {
     await ensureUser();
@@ -374,7 +375,7 @@ async function joinRoom() {
     if (error) throw error;
 
     if (!foundRoom) {
-      throw new Error("Room not found or no longer waiting.");
+      throw new Error("Oda bulunamadı veya artık katılıma açık değil.");
     }
 
     const { data: existingPlayers, error: listError } = await db
@@ -390,7 +391,7 @@ async function joinRoom() {
 
     if (!alreadyJoined) {
       if (existingPlayers.length >= foundRoom.max_players) {
-        throw new Error("This room is full.");
+        throw new Error("Bu oda dolu. Başka bir odaya katılabilirsin.");
       }
 
       const { error: joinError } = await db
@@ -398,7 +399,7 @@ async function joinRoom() {
         .insert({
           room_id: foundRoom.id,
           user_id: currentUser.id,
-          display_name: "PLAYER",
+          display_name: "OYUNCU",
           is_host: false
         });
 
@@ -409,7 +410,7 @@ async function joinRoom() {
     await openLobby();
 
   } catch (error) {
-    setStatus("joinMessage", error.message);
+    setStatus("joinMessage", "Odaya katılınamadı: " + error.message);
   } finally {
     button.disabled = false;
   }
@@ -420,8 +421,8 @@ async function openLobby() {
 
   document.getElementById("roomModeText").textContent =
     room.mode === "fixed"
-      ? "Fixed room • " + room.max_players + " players"
-      : "Flexible room • Up to 8 players";
+      ? "Sabit oda • " + room.max_players + " oyuncu"
+      : "Serbest oda • En fazla 8 oyuncu";
 
   showPanel("lobby");
   await refreshLobby();
@@ -448,7 +449,7 @@ async function refreshLobby() {
     const count = playerList.length;
 
     document.getElementById("playerStatus").textContent =
-      count + " / " + room.max_players + " PLAYERS";
+      count + " / " + room.max_players + " OYUNCU";
 
     const list = document.getElementById("players");
     list.innerHTML = "";
@@ -462,7 +463,7 @@ async function refreshLobby() {
 
       item.textContent =
         player.display_name +
-        (player.is_host ? " • HOST" : "");
+        (player.is_host ? " • ODA KURUCUSU" : "");
 
       list.appendChild(item);
     });
@@ -470,7 +471,7 @@ async function refreshLobby() {
     for (let i = count; i < room.max_players; i++) {
       const item = document.createElement("div");
       item.className = "player";
-      item.textContent = "WAITING FOR PLAYER...";
+      item.textContent = "OYUNCU BEKLENİYOR...";
       list.appendChild(item);
     }
 
@@ -486,15 +487,15 @@ async function refreshLobby() {
 
     document.getElementById("startMessage").textContent =
       !isHost
-        ? "Waiting for the host to start."
+        ? "Oda kurucusunun oyunu başlatması bekleniyor."
         : canStart
-          ? "The host can start the game now."
+          ? "Her şey hazır! Oda kurucusu oyunu başlatabilir."
           : room.mode === "fixed"
-            ? "Waiting for all selected players."
-            : "At least 2 players are needed.";
+            ? "Seçilen oyuncu sayısının tamamlanması bekleniyor."
+            : "Oyunu başlatmak için en az 2 oyuncu gerekli.";
 
   } catch (error) {
-    setStatus("startMessage", "Could not refresh players: " + error.message);
+    setStatus("startMessage", "Oyuncu listesi yenilenemedi: " + error.message);
   }
 }
 
@@ -502,8 +503,8 @@ function copyRoomCode() {
   if (!room) return;
 
   navigator.clipboard.writeText(room.code)
-    .then(() => alert("Room code copied!"))
-    .catch(() => alert("Room code: " + room.code));
+    .then(() => alert("Oda kodu kopyalandı!"))
+    .catch(() => alert("Oda kodun: " + room.code));
 }
 
 function startGame() {
@@ -518,8 +519,8 @@ window.addEventListener("beforeunload", () => {
 });
 
 ensureUser()
-  .then(() => console.log("VYBE connected."))
-  .catch(error => console.error("VYBE connection error:", error));
+  .then(() => console.log("VYBE bağlantısı kuruldu."))
+  .catch(error => console.error("VYBE bağlantı hatası:", error));
 </script>
 
 </body>
