@@ -162,11 +162,19 @@ main {
   font-size: .9em;
 }
 
+
 .glass {
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 24px;
+  padding: 28px;
+  border-radius: 22px;
+
   background: rgba(20, 12, 40, 0.45);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 35px rgba(var(--accent-rgb), 0.13);
 }
@@ -178,10 +186,16 @@ main {
   top: 38%;
   width: 15px;
   height: 30px;
-  background: rgba(var(--accent-rgb),.22);
+  background: rgba(var(--accent-rgb), .22);
   clip-path: polygon(100% 0, 100% 100%, 0 50%);
   pointer-events: none;
 }
+
+.about-panel {
+  background: rgba(100, 65, 145, 0.42);
+  border-color: rgba(205, 170, 255, 0.28);
+}
+
 
 .section-title,
 .game-arena h2 {
