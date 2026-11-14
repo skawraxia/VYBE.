@@ -4,17 +4,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VYBE — Kendi Tarzında Oyna</title>
+<title>VYBE. — Kendi Tarzında Oyna</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+@font-face {
+  font-family: "TanNimbus";
+  src: url("./TAN-N%C4%B0MBUS.otf") format("opentype");
+  font-display: swap;
+}
+
 :root {
   --accent: #a855f7;
   --accent-rgb: 168,85,247;
   --text-size: 16px;
-  --glass: rgba(20, 13, 42, .70);
-  --border: rgba(190, 140, 255, .35);
+  --glass: rgba(17, 11, 35, .76);
+  --border: rgba(190, 140, 255, .38);
 }
 
 * {
@@ -28,10 +34,36 @@ body {
   color: #f7f1ff;
   font-family: Arial, sans-serif;
   font-size: var(--text-size);
+  background: #090614;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
   background:
-    linear-gradient(rgba(8,5,20,.48), rgba(8,5,20,.78)),
-    url("arena-bg.png") center center / cover fixed;
-  background-color: #090614;
+    linear-gradient(rgba(8,5,20,.35), rgba(8,5,20,.62)),
+    url("arena-bg.png") center center / cover no-repeat;
+  animation: arenaMove 22s ease-in-out infinite alternate;
+  transform: scale(1.04);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 20%,
+      rgba(var(--accent-rgb),.12), transparent 55%);
+}
+
+@keyframes arenaMove {
+  from { transform: scale(1.04) translateY(0); }
+  to { transform: scale(1.12) translateY(-10px); }
 }
 
 button, input, select {
@@ -45,22 +77,22 @@ button {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
   flex-wrap: wrap;
   padding: 15px 5%;
-  background: rgba(9,6,22,.83);
+  background: rgba(9,6,22,.88);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
 }
 
 .logo {
-  font-size: 27px;
-  font-weight: 900;
-  letter-spacing: 5px;
+  font-family: "TanNimbus", Georgia, serif;
+  font-size: 31px;
+  letter-spacing: 3px;
   color: var(--accent);
   text-shadow: 0 0 20px var(--accent);
 }
@@ -68,7 +100,7 @@ button {
 .menu {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   flex-wrap: wrap;
 }
 
@@ -78,7 +110,7 @@ button {
   color: white;
   border: 1px solid var(--border);
   padding: 8px 12px;
-  border-radius: 5px;
+  border-radius: 9px;
 }
 
 .menu select option {
@@ -86,9 +118,10 @@ button {
 }
 
 .color-control {
-  width: 34px;
-  height: 34px;
+  width: 35px;
+  height: 35px;
   border: 1px solid white;
+  border-radius: 8px;
   background: transparent;
   cursor: pointer;
 }
@@ -96,42 +129,58 @@ button {
 main {
   width: min(1100px, 92%);
   margin: auto;
-  padding: 55px 0;
+  padding: 45px 0;
 }
 
 .hero {
   text-align: center;
-  padding: 50px 15px 45px;
+  padding: 55px 15px 60px;
 }
 
 .hero h1 {
-  font-size: clamp(38px, 8vw, 76px);
-  letter-spacing: 9px;
+  font-family: "TanNimbus", Georgia, serif;
+  font-size: clamp(58px, 10vw, 100px);
+  font-weight: normal;
+  letter-spacing: 5px;
   color: white;
-  text-shadow: 0 0 25px var(--accent);
+  text-shadow: 0 0 30px var(--accent);
 }
 
 .hero p {
   color: #d8c9ed;
   margin-top: 15px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  font-size: .9em;
 }
 
 .glass {
+  position: relative;
   background: var(--glass);
   border: 1px solid var(--border);
+  border-radius: 23px 23px 23px 8px;
   backdrop-filter: blur(18px);
-  box-shadow: 0 0 35px rgba(var(--accent-rgb),.12);
-  padding: 25px;
-  margin-bottom: 22px;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 42%,
-    calc(100% - 17px) 50%,
-    100% 58%, 100% 100%, 0 100%
-  );
+  box-shadow: 0 0 35px rgba(var(--accent-rgb),.13);
+  padding: 27px;
+  margin-bottom: 23px;
+  overflow: hidden;
 }
 
-.section-title {
+.glass::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 38%;
+  width: 15px;
+  height: 30px;
+  background: rgba(var(--accent-rgb),.22);
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  pointer-events: none;
+}
+
+.section-title,
+.game-arena h2 {
+  font-family: "Benathio", Arial, sans-serif;
+  text-transform: uppercase;
   font-size: 23px;
   margin-bottom: 18px;
   color: var(--accent);
@@ -145,15 +194,12 @@ main {
 
 .button {
   border: 1px solid var(--accent);
+  border-radius: 13px 13px 13px 5px;
   color: white;
-  background: rgba(var(--accent-rgb),.22);
+  background: rgba(var(--accent-rgb),.19);
   padding: 13px 22px;
-  transition: .2s;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 40%,
-    calc(100% - 13px) 50%,
-    100% 60%, 100% 100%, 0 100%
-  );
+  transition: .22s ease;
+  box-shadow: 0 0 12px rgba(var(--accent-rgb),.08);
 }
 
 .button:hover {
@@ -166,6 +212,7 @@ main {
   background: var(--accent);
   color: #fff;
   font-weight: bold;
+  box-shadow: 0 0 18px rgba(var(--accent-rgb),.28);
 }
 
 .button:disabled {
@@ -187,6 +234,7 @@ input, select {
   color: white;
   background: rgba(255,255,255,.07);
   border: 1px solid var(--border);
+  border-radius: 10px;
   outline: none;
 }
 
@@ -210,6 +258,18 @@ select option {
   gap: 20px;
 }
 
+.choice-card {
+  padding: 20px;
+  border: 1px solid rgba(var(--accent-rgb),.22);
+  border-radius: 18px;
+  background: rgba(255,255,255,.035);
+}
+
+.choice-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.15em;
+}
+
 label {
   display: block;
   color: #d9c8ef;
@@ -228,31 +288,28 @@ label {
 }
 
 .player {
-  padding: 13px;
-  margin: 8px 0;
+  padding: 14px;
+  margin: 9px 0;
   background: rgba(255,255,255,.055);
   border: 1px solid var(--border);
-  clip-path: polygon(
-    0 0, 100% 0, 100% 42%,
-    calc(100% - 10px) 50%,
-    100% 58%, 100% 100%, 0 100%
-  );
+  border-radius: 12px 12px 12px 4px;
 }
 
 .player.host {
   border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb),.13);
 }
 
 .room-code {
-  font-size: 28px;
-  letter-spacing: 6px;
+  font-size: 30px;
+  letter-spacing: 7px;
   color: var(--accent);
   margin: 12px 0;
   font-weight: bold;
 }
 
 .game-arena {
-  min-height: 380px;
+  min-height: 390px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -261,8 +318,7 @@ label {
 }
 
 .game-arena h2 {
-  font-size: clamp(30px, 6vw, 55px);
-  color: var(--accent);
+  font-size: clamp(32px, 6vw, 58px);
   letter-spacing: 5px;
   text-shadow: 0 0 25px var(--accent);
 }
@@ -272,6 +328,15 @@ label {
   padding: 25px;
   color: #9385a9;
   font-size: .85em;
+}
+
+.fade-in {
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media(max-width:700px) {
@@ -294,6 +359,17 @@ label {
   .hero {
     padding-top: 35px;
   }
+
+  .glass {
+    padding: 21px;
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
@@ -301,7 +377,7 @@ label {
 <body>
 
 <header class="topbar">
-  <div class="logo">VYBE</div>
+  <div class="logo">VYBE.</div>
 
   <div class="menu">
     <button onclick="changeFont(-1)">A−</button>
@@ -330,7 +406,7 @@ label {
 <main>
 
 <section class="hero">
-  <h1>VYBE</h1>
+  <h1>VYBE.</h1>
   <p>KENDİ TARZINDA OYNA.</p>
 </section>
 
@@ -346,38 +422,56 @@ label {
   <h2 class="section-title">OYUNUNU BAŞLAT</h2>
 
   <div class="grid">
-    <div>
+
+    <div class="choice-card">
       <h3>Yeni Oda Oluştur</h3>
       <p class="description">Kendi arenanı kur ve oyuncuları davet et.</p>
 
-      <label>Oyuncu sayısı</label>
-      <select id="maxPlayers">
-        <option value="2">2 oyuncu</option>
-        <option value="3">3 oyuncu</option>
-        <option value="4" selected>4 oyuncu</option>
-        <option value="5">5 oyuncu</option>
-        <option value="6">6 oyuncu</option>
-        <option value="7">7 oyuncu</option>
-        <option value="8">8 oyuncu</option>
-      </select>
+      <div class="actions">
+        <button class="button primary" onclick="toggleCreateOptions()">
+          ODA OLUŞTUR
+        </button>
+      </div>
 
-      <button class="button primary" onclick="createRoom()">
-        ODA OLUŞTUR
-      </button>
+      <div id="createOptions" class="hidden fade-in">
+        <label>Oyuncu sayısı</label>
+        <select id="maxPlayers">
+          <option value="2">2 oyuncu</option>
+          <option value="3">3 oyuncu</option>
+          <option value="4" selected>4 oyuncu</option>
+          <option value="5">5 oyuncu</option>
+          <option value="6">6 oyuncu</option>
+          <option value="7">7 oyuncu</option>
+          <option value="8">8 oyuncu</option>
+        </select>
+
+        <button class="button primary" onclick="createRoom()">
+          ARENAYI KUR
+        </button>
+      </div>
     </div>
 
-    <div>
+    <div class="choice-card">
       <h3>Bir Odaya Katıl</h3>
       <p class="description">Arkadaşının oda kodunu gir ve mücadeleye katıl.</p>
 
-      <label>Oda kodu</label>
-      <input id="joinCode" placeholder="ÖRN: A7K92B"
-        maxlength="6" style="text-transform:uppercase">
+      <div class="actions">
+        <button class="button" onclick="toggleJoinOptions()">
+          ODAYA KATIL
+        </button>
+      </div>
 
-      <button class="button" onclick="joinRoom()">
-        ODAYA KATIL
-      </button>
+      <div id="joinOptions" class="hidden fade-in">
+        <label>Oda kodu</label>
+        <input id="joinCode" placeholder="ÖRN: A7K92B"
+          maxlength="6" style="text-transform:uppercase">
+
+        <button class="button primary" onclick="joinRoom()">
+          KATIL
+        </button>
+      </div>
     </div>
+
   </div>
 
   <p class="status" id="homeStatus"></p>
@@ -465,6 +559,23 @@ function showPanel(panel) {
   document.getElementById(panel).classList.remove("hidden");
 }
 
+function toggleCreateOptions() {
+  document.getElementById("createOptions").classList.toggle("hidden");
+  document.getElementById("joinOptions").classList.add("hidden");
+}
+
+function toggleJoinOptions(forceOpen = false) {
+  const panel = document.getElementById("joinOptions");
+
+  if (forceOpen) {
+    panel.classList.remove("hidden");
+  } else {
+    panel.classList.toggle("hidden");
+  }
+
+  document.getElementById("createOptions").classList.add("hidden");
+}
+
 function changeColor(color) {
   document.documentElement.style.setProperty("--accent", color);
 
@@ -475,20 +586,46 @@ function changeColor(color) {
   document.documentElement.style.setProperty(
     "--accent-rgb", `${r},${g},${b}`
   );
+
+  localStorage.setItem("vybeAccent", color);
 }
 
 function changeFont(amount) {
   fontSize = Math.max(12, Math.min(24, fontSize + amount));
   document.documentElement.style.setProperty("--text-size", fontSize + "px");
+  localStorage.setItem("vybeFontSize", fontSize);
 }
 
 function resetFont() {
   fontSize = 16;
   document.documentElement.style.setProperty("--text-size", "16px");
+  localStorage.setItem("vybeFontSize", 16);
 }
 
 function changeFontFamily(font) {
   document.body.style.fontFamily = `"${font}", sans-serif`;
+  localStorage.setItem("vybeFontFamily", font);
+}
+
+function loadPreferences() {
+  const savedColor = localStorage.getItem("vybeAccent");
+  const savedSize = localStorage.getItem("vybeFontSize");
+  const savedFont = localStorage.getItem("vybeFontFamily");
+
+  if (savedColor) {
+    document.getElementById("colorPicker").value = savedColor;
+    changeColor(savedColor);
+  }
+
+  if (savedSize) {
+    fontSize = Math.max(12, Math.min(24, Number(savedSize)));
+    document.documentElement.style.setProperty("--text-size", fontSize + "px");
+  }
+
+  if (savedFont) {
+    document.getElementById("fontPicker").value = savedFont;
+    changeFontFamily(savedFont);
+  }
 }
 
 async function ensureUser() {
@@ -761,24 +898,47 @@ async function startGame() {
   }
 }
 
-function copyRoomCode() {
-  if (!currentRoom) return;
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const temporary = document.createElement("textarea");
+    temporary.value = text;
+    document.body.appendChild(temporary);
+    temporary.select();
 
-  navigator.clipboard.writeText(currentRoom.code)
-    .then(() => showStatus("lobbyStatus", "Oda kodu kopyalandı!"))
-    .catch(() => showStatus("lobbyStatus", "Kod: " + currentRoom.code));
+    const success = document.execCommand("copy");
+    temporary.remove();
+
+    return success;
+  }
 }
 
-function copyInviteLink() {
+async function copyRoomCode() {
+  if (!currentRoom) return;
+
+  const success = await copyText(currentRoom.code);
+
+  showStatus(
+    "lobbyStatus",
+    success ? "Oda kodu kopyalandı!" : "Kod: " + currentRoom.code
+  );
+}
+
+async function copyInviteLink() {
   if (!currentRoom) return;
 
   const link = window.location.origin +
     window.location.pathname +
     "?room=" + currentRoom.code + "#arena";
 
-  navigator.clipboard.writeText(link)
-    .then(() => showStatus("lobbyStatus", "Davet bağlantısı kopyalandı!"))
-    .catch(() => showStatus("lobbyStatus", link));
+  const success = await copyText(link);
+
+  showStatus(
+    "lobbyStatus",
+    success ? "Davet bağlantısı kopyalandı!" : link
+  );
 }
 
 function leaveToHome() {
@@ -796,6 +956,8 @@ function leaveToHome() {
 }
 
 async function initializeVYBE() {
+  loadPreferences();
+
   try {
     await ensureUser();
 
@@ -806,6 +968,7 @@ async function initializeVYBE() {
       document.getElementById("joinCode").value =
         inviteCode.toUpperCase();
 
+      toggleJoinOptions(true);
       showStatus("homeStatus", "Davet odası bulundu. Katıl butonuna bas.");
     }
 
