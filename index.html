@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VYBE | Play Your Way</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #090711;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 25px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ffffff18;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      color: #d76aff;
+    }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 13px;
+    }
+
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: radial-gradient(
+        ellipse at center,
+        #7825a84a,
+        transparent 65%
+      );
+    }
+
+    .tag {
+      color: #e28cff;
+      border: 1px solid #a94cff66;
+      padding: 10px 20px;
+      border-radius: 30px;
+      letter-spacing: 3px;
+      font-size: 11px;
+    }
+
+    h1 {
+      font-size: clamp(80px, 18vw, 160px);
+      letter-spacing: 12px;
+      margin: 25px 0;
+      background: linear-gradient(90deg, #a64cff, #ff4ca8);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    h2 {
+      letter-spacing: 5px;
+      font-size: 28px;
+    }
+
+    .hero p {
+      color: #aaa;
+      max-width: 450px;
+      line-height: 1.8;
+      margin: 25px 0 35px;
+    }
+
+    .button {
+      padding: 17px 45px;
+      background: linear-gradient(100deg, #913cff, #e64ba9);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 30px #d344ff88;
+    }
+
+    .section {
+      padding: 90px 8%;
+      text-align: center;
+    }
+
+    .section p {
+      color: #aaa;
+      margin-top: 18px;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      border-top: 1px solid #ffffff18;
+    }
+
+    @media(max-width: 600px) {
+      nav a {
+        margin-left: 8px;
+        font-size: 10px;
+      }
+
+      h1 {
+        letter-spacing: 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">VYBE.</div>
+
+    <nav>
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#play">PLAY</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="tag">STRATEGY • COMPETITION • FUN</div>
+
+      <h1>VYBE</h1>
+
+      <h2>PLAY YOUR WAY.</h2>
+
+      <p>
+        Think ahead. Make your move.
+        Every card changes the game.
+        Are you ready to find your VYBE?
+      </p>
+
+      <a href="#play" class="button">PLAY NOW</a>
+    </section>
+
+    <section class="section" id="about">
+      <h2>MORE THAN A CARD GAME.</h2>
+      <p>
+        It's not just about the cards you hold.
+        It's about the moves you make.
+      </p>
+    </section>
+
+    <section class="section" id="play">
+      <h2>YOUR GAME STARTS HERE.</h2>
+      <p>VYBE ARENA — COMING SOON.</p>
+    </section>
+  </main>
+
+  <footer>
+    VYBE © 2026 — PLAY YOUR WAY.
+  </footer>
+
+</body>
+</html>
