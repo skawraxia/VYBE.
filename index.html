@@ -1,185 +1,637 @@
 
+
+    
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VYBE | Play Your Way</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYBE — Play Your Way</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      background: #090711;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+body {
+  background: #090711;
+  color: white;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
 
-    header {
-      padding: 25px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #ffffff18;
-    }
+header {
+  height: 85px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ffffff15;
+}
 
-    .logo {
-      font-size: 32px;
-      font-weight: 900;
-      letter-spacing: 5px;
-      color: #d76aff;
-    }
+.logo {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  background: linear-gradient(90deg,#b45aff,#ff55ae);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
-    nav a {
-      color: #aaa;
-      text-decoration: none;
-      margin-left: 25px;
-      font-size: 13px;
-    }
+nav {
+  display: flex;
+  gap: 25px;
+}
 
-    .hero {
-      min-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 20px;
-      background: radial-gradient(
-        ellipse at center,
-        #7825a84a,
-        transparent 65%
-      );
-    }
+nav a {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 13px;
+}
 
-    .tag {
-      color: #e28cff;
-      border: 1px solid #a94cff66;
-      padding: 10px 20px;
-      border-radius: 30px;
-      letter-spacing: 3px;
-      font-size: 11px;
-    }
+nav a:hover {
+  color: #e58aff;
+}
 
-    h1 {
-      font-size: clamp(80px, 18vw, 160px);
-      letter-spacing: 12px;
-      margin: 25px 0;
-      background: linear-gradient(90deg, #a64cff, #ff4ca8);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+.hero {
+  min-height: 650px;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: radial-gradient(
+    ellipse at center,
+    #7425a54a,
+    transparent 65%
+  );
+}
 
-    h2 {
-      letter-spacing: 5px;
-      font-size: 28px;
-    }
+.tag {
+  color: #e19aff;
+  border: 1px solid #a94cff66;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
 
-    .hero p {
-      color: #aaa;
-      max-width: 450px;
-      line-height: 1.8;
-      margin: 25px 0 35px;
-    }
+.hero h1 {
+  font-size: clamp(80px,17vw,155px);
+  letter-spacing: 12px;
+  margin: 25px 0;
+  background: linear-gradient(100deg,#a64cff,#ff4ca8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
 
-    .button {
-      padding: 17px 45px;
-      background: linear-gradient(100deg, #913cff, #e64ba9);
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      transition: 0.3s;
-    }
+.hero h2 {
+  letter-spacing: 5px;
+  font-size: 27px;
+}
 
-    .button:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 30px #d344ff88;
-    }
+.hero p {
+  color: #aaa;
+  max-width: 450px;
+  line-height: 1.8;
+  margin: 25px 0 35px;
+}
 
-    .section {
-      padding: 90px 8%;
-      text-align: center;
-    }
+button {
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: .25s;
+}
 
-    .section p {
-      color: #aaa;
-      margin-top: 18px;
-      line-height: 1.8;
-    }
+.primary {
+  color: white;
+  background: linear-gradient(100deg,#913cff,#e64ba9);
+  padding: 17px 38px;
+  border-radius: 8px;
+  letter-spacing: 2px;
+  box-shadow: 0 0 25px #a33cff44;
+}
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-      border-top: 1px solid #ffffff18;
-    }
+.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 35px #d344ff88;
+}
 
-    @media(max-width: 600px) {
-      nav a {
-        margin-left: 8px;
-        font-size: 10px;
-      }
+.section {
+  padding: 85px 7%;
+  text-align: center;
+}
 
-      h1 {
-        letter-spacing: 5px;
-      }
-    }
-  </style>
+.section h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.muted {
+  color: #aaa;
+  line-height: 1.8;
+}
+
+.arena {
+  max-width: 900px;
+  margin: 35px auto 0;
+  padding: 35px;
+  border: 1px solid #a94cff55;
+  background: linear-gradient(145deg,#191326,#100c19);
+  border-radius: 18px;
+}
+
+.arena h3 {
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+
+.game-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.option {
+  padding: 28px 15px;
+  background: #241631;
+  border: 1px solid #ffffff16;
+  border-radius: 12px;
+  color: white;
+}
+
+.option:hover {
+  border-color: #d05aff;
+  background: #321c46;
+}
+
+.option h3 {
+  font-size: 19px;
+}
+
+.option p {
+  color: #aaa;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.panel {
+  display: none;
+  max-width: 650px;
+  margin: 30px auto 0;
+  padding: 30px;
+  background: #110d1b;
+  border: 1px solid #a94cff66;
+  border-radius: 15px;
+  text-align: left;
+}
+
+.panel.active {
+  display: block;
+}
+
+.panel h3 {
+  margin-bottom: 22px;
+}
+
+label {
+  display: block;
+  color: #c9b6d8;
+  font-size: 13px;
+  margin: 18px 0 9px;
+}
+
+select, input {
+  width: 100%;
+  padding: 14px;
+  background: #21172d;
+  color: white;
+  border: 1px solid #65417e;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mode {
+  padding: 16px;
+  border: 1px solid #59406e;
+  border-radius: 9px;
+  background: #1b1426;
+  color: white;
+  text-align: left;
+}
+
+.mode.selected {
+  border-color: #d46bff;
+  background: #39204c;
+}
+
+.mode small {
+  display: block;
+  color: #b9a7c9;
+  margin-top: 7px;
+  line-height: 1.5;
+}
+
+.full {
+  width: 100%;
+  margin-top: 22px;
+}
+
+.room-code {
+  text-align: center;
+  padding: 22px;
+  background: #261635;
+  border: 1px dashed #c56aff;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.room-code strong {
+  display: block;
+  color: #e6a0ff;
+  font-size: 30px;
+  letter-spacing: 7px;
+  margin-top: 10px;
+}
+
+.players {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.player {
+  background: #21172d;
+  border: 1px solid #4d3561;
+  border-radius: 8px;
+  padding: 15px;
+  color: #d9c9e8;
+  font-size: 13px;
+}
+
+.player.host {
+  border-color: #bd64ed;
+  color: #e5a0ff;
+}
+
+.notice {
+  color: #c5a8d9;
+  background: #261a32;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 18px;
+}
+
+.secondary {
+  background: #342144;
+  color: white;
+  border: 1px solid #8052a0;
+  border-radius: 7px;
+  padding: 13px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.secondary:hover {
+  background: #503065;
+}
+
+.status {
+  color: #e4a0ff;
+  font-size: 13px;
+  margin-top: 14px;
+  line-height: 1.7;
+}
+
+footer {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+  border-top: 1px solid #ffffff15;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+@media(max-width:600px) {
+  header {
+    padding: 0 5%;
+  }
+
+  nav {
+    gap: 12px;
+  }
+
+  nav a {
+    font-size: 10px;
+  }
+
+  .hero h1 {
+    letter-spacing: 5px;
+  }
+
+  .game-options,
+  .modes,
+  .players {
+    grid-template-columns: 1fr;
+  }
+
+  .arena {
+    padding: 20px;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">VYBE.</div>
+<header>
+  <div class="logo">VYBE.</div>
+  <nav>
+    <a href="#home">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#arena">PLAY</a>
+  </nav>
+</header>
 
-    <nav>
-      <a href="#home">HOME</a>
-      <a href="#about">ABOUT</a>
-      <a href="#play">PLAY</a>
-    </nav>
-  </header>
+<main>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="tag">STRATEGY • COMPETITION • FUN</div>
+<section class="hero" id="home">
+  <div class="tag">STRATEGY • COMPETITION • FUN</div>
+  <h1>VYBE</h1>
+  <h2>PLAY YOUR WAY.</h2>
+  <p>
+    Think ahead. Make your move.
+    Every card changes the game.
+    Are you ready to find your VYBE?
+  </p>
+  <button class="primary"
+    onclick="document.getElementById('arena').scrollIntoView({behavior:'smooth'})">
+    PLAY NOW
+  </button>
+</section>
 
-      <h1>VYBE</h1>
+<section class="section" id="about">
+  <h2>MORE THAN A CARD GAME.</h2>
+  <p class="muted">
+    It's not just about the cards you hold.
+    It's about the moves you make.
+  </p>
+</section>
 
-      <h2>PLAY YOUR WAY.</h2>
+<section class="section" id="arena">
+  <h2>VYBE ARENA</h2>
+  <p class="muted">Choose your game mode.</p>
 
-      <p>
-        Think ahead. Make your move.
-        Every card changes the game.
-        Are you ready to find your VYBE?
+  <div class="arena">
+
+    <div class="game-options">
+      <button class="option" onclick="showPanel('create')">
+        <h3>CREATE ROOM</h3>
+        <p>Start your own game.</p>
+      </button>
+
+      <button class="option" onclick="showPanel('join')">
+        <h3>JOIN ROOM</h3>
+        <p>Enter a room code.</p>
+      </button>
+    </div>
+
+    <div class="panel" id="create">
+      <h3>CREATE YOUR ROOM</h3>
+
+      <label>PLAYER MODE</label>
+      <div class="modes">
+        <button class="mode selected" id="fixedMode"
+          onclick="chooseMode('fixed')">
+          FIXED PLAYERS
+          <small>Choose how many players you want.</small>
+        </button>
+
+        <button class="mode" id="flexMode"
+          onclick="chooseMode('flex')">
+          FLEXIBLE
+          <small>Start whenever you want, with 2–8 players.</small>
+        </button>
+      </div>
+
+      <div id="countArea">
+        <label>PLAYER COUNT</label>
+        <select id="playerCount">
+          <option value="2">2 PLAYERS</option>
+          <option value="3">3 PLAYERS</option>
+          <option value="4">4 PLAYERS</option>
+          <option value="5">5 PLAYERS</option>
+          <option value="6">6 PLAYERS</option>
+          <option value="7">7 PLAYERS</option>
+          <option value="8">8 PLAYERS</option>
+        </select>
+      </div>
+
+      <button class="primary full" onclick="createRoom()">
+        CREATE ROOM
+      </button>
+    </div>
+
+    <div class="panel" id="join">
+      <h3>JOIN A ROOM</h3>
+      <label>ROOM CODE</label>
+      <input id="joinCode" placeholder="Enter your room code">
+      <button class="primary full" onclick="joinRoom()">
+        JOIN GAME
+      </button>
+      <p class="status" id="joinMessage"></p>
+      <div class="notice">
+        Online room connections will be activated in a later development step.
+      </div>
+    </div>
+
+    <div class="panel" id="lobby">
+      <h3>WAITING ROOM</h3>
+      <p class="muted" id="roomModeText"></p>
+
+      <div class="room-code">
+        ROOM CODE
+        <strong id="roomCode">------</strong>
+      </div>
+
+      <p class="muted" id="playerStatus"></p>
+
+      <div class="players" id="players"></div>
+
+      <button class="secondary" onclick="addTestPlayer()">
+        + ADD TEST PLAYER
+      </button>
+
+      <button class="primary full" id="startButton"
+        onclick="startGame()" disabled>
+        START GAME
+      </button>
+
+      <p class="status" id="startMessage">
+        At least 2 players are needed.
       </p>
 
-      <a href="#play" class="button">PLAY NOW</a>
-    </section>
+      <div class="notice">
+        Test mode: Players added here are local previews.
+        Real online invitations and room synchronization
+        will be added with the multiplayer server.
+      </div>
+    </div>
 
-    <section class="section" id="about">
-      <h2>MORE THAN A CARD GAME.</h2>
-      <p>
-        It's not just about the cards you hold.
-        It's about the moves you make.
+    <div class="panel" id="game">
+      <h3>VYBE GAME</h3>
+      <p class="muted">
+        Your game table is ready for the next development lesson.
       </p>
-    </section>
+      <p class="status">GAME SESSION CREATED</p>
+    </div>
 
-    <section class="section" id="play">
-      <h2>YOUR GAME STARTS HERE.</h2>
-      <p>VYBE ARENA — COMING SOON.</p>
-    </section>
-  </main>
+  </div>
+</section>
 
-  <footer>
-    VYBE © 2026 — PLAY YOUR WAY.
-  </footer>
+</main>
+
+<footer>
+  VYBE © 2026 — PLAY YOUR WAY.
+</footer>
+
+<script>
+let mode = "fixed";
+let room = null;
+
+function showPanel(name) {
+  document.querySelectorAll(".panel").forEach(panel => {
+    panel.classList.remove("active");
+  });
+
+  document.getElementById(name).classList.add("active");
+}
+
+function chooseMode(selected) {
+  mode = selected;
+
+  document.getElementById("fixedMode")
+    .classList.toggle("selected", selected === "fixed");
+
+  document.getElementById("flexMode")
+    .classList.toggle("selected", selected === "flex");
+
+  document.getElementById("countArea").style.display =
+    selected === "fixed" ? "block" : "none";
+}
+
+function createRoom() {
+  const target = mode === "fixed"
+    ? Number(document.getElementById("playerCount").value)
+    : 8;
+
+  room = {
+    code: Math.random().toString(36).substring(2, 8).toUpperCase(),
+    mode: mode,
+    target: target,
+    players: ["YOU"]
+  };
+
+  document.getElementById("roomCode").textContent = room.code;
+
+  document.getElementById("roomModeText").textContent =
+    mode === "fixed"
+      ? "Fixed room • " + target + " players"
+      : "Flexible room • Up to 8 players";
+
+  showPanel("lobby");
+  updateLobby();
+}
+
+function addTestPlayer() {
+  if (!room) return;
+
+  if (room.players.length >= room.target) {
+    document.getElementById("startMessage").textContent =
+      "The room is full.";
+    return;
+  }
+
+  room.players.push("TEST PLAYER " + room.players.length);
+  updateLobby();
+}
+
+function updateLobby() {
+  const count = room.players.length;
+
+  document.getElementById("playerStatus").textContent =
+    count + " / " + room.target + " PLAYERS";
+
+  const list = document.getElementById("players");
+  list.innerHTML = "";
+
+  room.players.forEach((player, index) => {
+    const item = document.createElement("div");
+    item.className = index === 0 ? "player host" : "player";
+    item.textContent = player + (index === 0 ? " • HOST" : "");
+    list.appendChild(item);
+  });
+
+  for (let i = count; i < room.target; i++) {
+    const item = document.createElement("div");
+    item.className = "player";
+    item.textContent = "WAITING FOR PLAYER...";
+    list.appendChild(item);
+  }
+
+  const canStart = count >= 2 &&
+    (room.mode === "flex" || count === room.target);
+
+  document.getElementById("startButton").disabled = !canStart;
+  document.getElementById("startButton").style.opacity =
+    canStart ? "1" : "0.4";
+
+  document.getElementById("startMessage").textContent =
+    canStart
+      ? "The host can start the game now."
+      : room.mode === "fixed"
+        ? "Waiting for all selected players."
+        : "At least 2 players are needed.";
+}
+
+function startGame() {
+  if (!room || room.players.length < 2) return;
+
+  if (room.mode === "fixed" &&
+      room.players.length !== room.target) return;
+
+  showPanel("game");
+}
+
+function joinRoom() {
+  const code = document.getElementById("joinCode")
+    .value.trim().toUpperCase();
+
+  document.getElementById("joinMessage").textContent =
+    "Online room joining is not connected yet. " +
+    "We'll activate it when we add the multiplayer server.";
+}
+</script>
 
 </body>
 </html>
