@@ -699,7 +699,7 @@ async function createRoom() {
         .insert({
           code: code,
           host_id: currentUser.id,
-          mode: "both",
+          mode: "fixed",
           max_players: maxPlayers,
           status: "waiting"
         })
