@@ -5,270 +5,495 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VYBE — Kendi Tarzında Oyna</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#090711;color:white;font-family:Arial,sans-serif;min-height:100vh}
-header{height:85px;padding:0 7%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff15}
-.logo{font-size:32px;font-weight:900;letter-spacing:5px;background:linear-gradient(90deg,#b45aff,#ff55ae);background-clip:text;-webkit-background-clip:text;color:transparent}
-nav{display:flex;gap:25px}
-nav a{color:#aaa;text-decoration:none;font-size:13px}
-nav a:hover{color:#e58aff}
-.hero{min-height:650px;padding:80px 20px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:radial-gradient(ellipse at center,#7425a54a,transparent 65%)}
-.tag{color:#e19aff;border:1px solid #a94cff66;padding:10px 20px;border-radius:30px;font-size:11px;letter-spacing:3px}
-.hero h1{font-size:clamp(80px,17vw,155px);letter-spacing:12px;margin:25px 0;background:linear-gradient(100deg,#a64cff,#ff4ca8);background-clip:text;-webkit-background-clip:text;color:transparent}
-.hero h2{letter-spacing:5px;font-size:27px}
-.hero p{color:#aaa;max-width:450px;line-height:1.8;margin:25px 0 35px}
-button{cursor:pointer;border:none;font-weight:bold;transition:.25s}
-button:disabled{cursor:not-allowed}
-.primary{color:white;background:linear-gradient(100deg,#913cff,#e64ba9);padding:17px 38px;border-radius:8px;letter-spacing:2px;box-shadow:0 0 25px #a33cff44}
-.primary:hover{transform:translateY(-3px);box-shadow:0 0 35px #d344ff88}
-.section{padding:85px 7%;text-align:center}
-.section h2{font-size:32px;margin-bottom:15px}
-.muted{color:#aaa;line-height:1.8}
-.arena{max-width:900px;margin:35px auto 0;padding:35px;border:1px solid #a94cff55;background:linear-gradient(145deg,#191326,#100c19);border-radius:18px}
-.arena h3{font-size:25px;margin-bottom:12px}
-.game-options{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
-.option{padding:28px 15px;background:#241631;border:1px solid #ffffff16;border-radius:12px;color:white}
-.option:hover{border-color:#d05aff;background:#321c46}
-.option h3{font-size:19px}
-.option p{color:#aaa;margin-top:10px;font-size:13px}
-.panel{display:none;max-width:650px;margin:30px auto 0;padding:30px;background:#110d1b;border:1px solid #a94cff66;border-radius:15px;text-align:left}
-.panel.active{display:block}
-.panel h3{margin-bottom:22px}
-label{display:block;color:#c9b6d8;font-size:13px;margin:18px 0 9px}
-select,input{width:100%;padding:14px;background:#21172d;color:white;border:1px solid #65417e;border-radius:7px;font-size:15px}
-.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mode{padding:16px;border:1px solid #59406e;border-radius:9px;background:#1b1426;color:white;text-align:left}
-.mode.selected{border-color:#d46bff;background:#39204c}
-.mode small{display:block;color:#b9a7c9;margin-top:7px;line-height:1.5}
-.full{width:100%;margin-top:22px}
-.room-code{text-align:center;padding:22px;background:#261635;border:1px dashed #c56aff;border-radius:10px;margin:20px 0}
-.room-code strong{display:block;color:#e6a0ff;font-size:30px;letter-spacing:7px;margin-top:10px}
-.players{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
-.player{background:#21172d;border:1px solid #4d3561;border-radius:8px;padding:15px;color:#d9c9e8;font-size:13px}
-.player.host{border-color:#bd64ed;color:#e5a0ff}
-.notice{color:#c5a8d9;background:#261a32;border-radius:8px;padding:13px;font-size:12px;line-height:1.7;margin-top:18px}
-.secondary{background:#342144;color:white;border:1px solid #8052a0;border-radius:7px;padding:13px;width:100%;margin-top:10px}
-.secondary:hover{background:#503065}
-.status{color:#e4a0ff;font-size:13px;margin-top:14px;line-height:1.7}
-.game-screen{text-align:center;padding:35px 10px}
-.game-logo{font-size:48px;font-weight:900;letter-spacing:8px;background:linear-gradient(90deg,#b45aff,#ff55ae);background-clip:text;-webkit-background-clip:text;color:transparent;margin-bottom:20px}
-.game-wait{margin-top:25px;padding:22px;background:#261635;border:1px solid #a94cff55;border-radius:12px}
-.invite-box{margin-top:20px;padding:18px;background:#1d1429;border:1px solid #70418f;border-radius:10px}
-.invite-box p{font-size:13px;color:#c9b6d8;line-height:1.6;margin-bottom:10px}
-.invite-url{font-size:12px;color:#e5a0ff;overflow-wrap:anywhere;line-height:1.6}
-footer{padding:30px;text-align:center;color:#777;border-top:1px solid #ffffff15;font-size:12px;letter-spacing:2px}
-@media(max-width:600px){
-header{padding:0 5%}
-nav{gap:12px}
-nav a{font-size:10px}
-.hero h1{letter-spacing:5px}
-.game-options,.modes,.players{grid-template-columns:1fr}
-.arena{padding:20px}
-.panel{padding:20px}
+:root {
+  --accent: #a855f7;
+  --accent-rgb: 168,85,247;
+  --text-size: 16px;
+  --glass: rgba(20, 13, 42, .70);
+  --border: rgba(190, 140, 255, .35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: #f7f1ff;
+  font-family: Arial, sans-serif;
+  font-size: var(--text-size);
+  background:
+    linear-gradient(rgba(8,5,20,.48), rgba(8,5,20,.78)),
+    url("arena-bg.png") center center / cover fixed;
+  background-color: #090614;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 15px 5%;
+  background: rgba(9,6,22,.83);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: var(--accent);
+  text-shadow: 0 0 20px var(--accent);
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.menu button,
+.menu select {
+  background: rgba(255,255,255,.07);
+  color: white;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+.menu select option {
+  color: black;
+}
+
+.color-control {
+  width: 34px;
+  height: 34px;
+  border: 1px solid white;
+  background: transparent;
+  cursor: pointer;
+}
+
+main {
+  width: min(1100px, 92%);
+  margin: auto;
+  padding: 55px 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 50px 15px 45px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 8vw, 76px);
+  letter-spacing: 9px;
+  color: white;
+  text-shadow: 0 0 25px var(--accent);
+}
+
+.hero p {
+  color: #d8c9ed;
+  margin-top: 15px;
+  letter-spacing: 2px;
+}
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 35px rgba(var(--accent-rgb),.12);
+  padding: 25px;
+  margin-bottom: 22px;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 42%,
+    calc(100% - 17px) 50%,
+    100% 58%, 100% 100%, 0 100%
+  );
+}
+
+.section-title {
+  font-size: 23px;
+  margin-bottom: 18px;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+
+.description {
+  line-height: 1.8;
+  color: #d6c9e7;
+}
+
+.button {
+  border: 1px solid var(--accent);
+  color: white;
+  background: rgba(var(--accent-rgb),.22);
+  padding: 13px 22px;
+  transition: .2s;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 40%,
+    calc(100% - 13px) 50%,
+    100% 60%, 100% 100%, 0 100%
+  );
+}
+
+.button:hover {
+  background: var(--accent);
+  box-shadow: 0 0 22px var(--accent);
+  transform: translateY(-2px);
+}
+
+.button.primary {
+  background: var(--accent);
+  color: #fff;
+  font-weight: bold;
+}
+
+.button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+input, select {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 14px;
+  color: white;
+  background: rgba(255,255,255,.07);
+  border: 1px solid var(--border);
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb),.3);
+}
+
+input::placeholder {
+  color: #b8a9ca;
+}
+
+select option {
+  background: #171027;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 20px;
+}
+
+label {
+  display: block;
+  color: #d9c8ef;
+  font-size: .9em;
+  margin-top: 8px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.status {
+  color: var(--accent);
+  margin-top: 14px;
+  min-height: 22px;
+}
+
+.player {
+  padding: 13px;
+  margin: 8px 0;
+  background: rgba(255,255,255,.055);
+  border: 1px solid var(--border);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 42%,
+    calc(100% - 10px) 50%,
+    100% 58%, 100% 100%, 0 100%
+  );
+}
+
+.player.host {
+  border-color: var(--accent);
+}
+
+.room-code {
+  font-size: 28px;
+  letter-spacing: 6px;
+  color: var(--accent);
+  margin: 12px 0;
+  font-weight: bold;
+}
+
+.game-arena {
+  min-height: 380px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-arena h2 {
+  font-size: clamp(30px, 6vw, 55px);
+  color: var(--accent);
+  letter-spacing: 5px;
+  text-shadow: 0 0 25px var(--accent);
+}
+
+.footer {
+  text-align: center;
+  padding: 25px;
+  color: #9385a9;
+  font-size: .85em;
+}
+
+@media(max-width:700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    justify-content: center;
+  }
+
+  .menu {
+    justify-content: center;
+  }
+
+  main {
+    padding-top: 25px;
+  }
+
+  .hero {
+    padding-top: 35px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">VYBE.</div>
-  <nav>
-    <a href="#home">ANA SAYFA</a>
-    <a href="#about">HAKKINDA</a>
-    <a href="#arena">OYNA</a>
-  </nav>
+<header class="topbar">
+  <div class="logo">VYBE</div>
+
+  <div class="menu">
+    <button onclick="changeFont(-1)">A−</button>
+    <button onclick="resetFont()">A</button>
+    <button onclick="changeFont(1)">A+</button>
+
+    <label style="margin:0;display:flex;align-items:center;gap:7px">
+      <span>Renk</span>
+      <input class="color-control" id="colorPicker"
+        type="color" value="#a855f7"
+        onchange="changeColor(this.value)"
+        style="margin:0;padding:0">
+    </label>
+
+    <select id="fontPicker" onchange="changeFontFamily(this.value)"
+      style="width:auto;margin:0">
+      <option value="Arial">Arial</option>
+      <option value="Verdana">Verdana</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Trebuchet MS">Trebuchet</option>
+      <option value="Courier New">Courier</option>
+    </select>
+  </div>
 </header>
 
 <main>
 
-<section class="hero" id="home">
-  <div class="tag">STRATEJİ • REKABET • EĞLENCE</div>
+<section class="hero">
   <h1>VYBE</h1>
-  <h2>KENDİ TARZINDA OYNA.</h2>
-  <p>
-    Hamlelerini önceden düşün.
-    Doğru zamanda kararını ver.
-    Her kart oyunun gidişatını değiştirebilir.
-    Kendi VYBE'ını bulmaya hazır mısın?
-  </p>
-  <button class="primary"
-    onclick="document.getElementById('arena').scrollIntoView({behavior:'smooth'})">
-    HEMEN OYNA
-  </button>
+  <p>KENDİ TARZINDA OYNA.</p>
 </section>
 
-<section class="section" id="about">
-  <h2>BİR KART OYUNUNDAN DAHA FAZLASI.</h2>
-  <p class="muted">
-    Önemli olan yalnızca elindeki kartlar değil.
-    Önemli olan yaptığın hamleler.
+<section class="glass">
+  <h2 class="section-title">ARENA'YA HOŞ GELDİN</h2>
+  <p class="description">
+    Stratejini belirle, rakiplerini tanı ve kendi oyununu kur.
+    VYBE'da her karşılaşma yeni bir mücadele.
   </p>
 </section>
 
-<section class="section" id="arena">
-  <h2>VYBE OYUN ALANI</h2>
-  <p class="muted">Nasıl oynamak istediğini seç.</p>
+<section id="homePanel" class="glass">
+  <h2 class="section-title">OYUNUNU BAŞLAT</h2>
 
-  <div class="arena">
+  <div class="grid">
+    <div>
+      <h3>Yeni Oda Oluştur</h3>
+      <p class="description">Kendi arenanı kur ve oyuncuları davet et.</p>
 
-    <div class="game-options">
-      <button class="option" onclick="showPanel('create')">
-        <h3>ODA OLUŞTUR</h3>
-        <p>Kendi oyun odanı kur.</p>
-      </button>
+      <label>Oyuncu sayısı</label>
+      <select id="maxPlayers">
+        <option value="2">2 oyuncu</option>
+        <option value="3">3 oyuncu</option>
+        <option value="4" selected>4 oyuncu</option>
+        <option value="5">5 oyuncu</option>
+        <option value="6">6 oyuncu</option>
+        <option value="7">7 oyuncu</option>
+        <option value="8">8 oyuncu</option>
+      </select>
 
-      <button class="option" onclick="showPanel('join')">
-        <h3>ODAYA KATIL</h3>
-        <p>Oda kodunu girerek oyuna katıl.</p>
-      </button>
-    </div>
-
-    <div class="panel" id="create">
-      <h3>YENİ ODA OLUŞTUR</h3>
-
-      <label>OYUNCU SAYISI SEÇENEĞİ</label>
-      <div class="modes">
-        <button class="mode selected" id="fixedMode" onclick="chooseMode('fixed')">
-          SABİT OYUNCU SAYISI
-          <small>Oyuna katılacak toplam oyuncu sayısını belirle.</small>
-        </button>
-
-        <button class="mode" id="flexMode" onclick="chooseMode('flex')">
-          SERBEST OYUNCU SAYISI
-          <small>En az 2, en fazla 8 oyuncuyla istediğin zaman başla.</small>
-        </button>
-      </div>
-
-      <div id="countArea">
-        <label>TOPLAM OYUNCU SAYISI</label>
-        <select id="playerCount">
-          <option value="2">2 OYUNCU</option>
-          <option value="3">3 OYUNCU</option>
-          <option value="4">4 OYUNCU</option>
-          <option value="5">5 OYUNCU</option>
-          <option value="6">6 OYUNCU</option>
-          <option value="7">7 OYUNCU</option>
-          <option value="8">8 OYUNCU</option>
-        </select>
-      </div>
-
-      <button class="primary full" id="createButton" onclick="createRoom()">
+      <button class="button primary" onclick="createRoom()">
         ODA OLUŞTUR
       </button>
     </div>
 
-    <div class="panel" id="join">
-      <h3>OYUN ODASINA KATIL</h3>
-      <label>ODA KODU</label>
-      <input id="joinCode" maxlength="6" placeholder="6 karakterli oda kodunu gir">
-      <button class="primary full" id="joinButton" onclick="joinRoom()">
+    <div>
+      <h3>Bir Odaya Katıl</h3>
+      <p class="description">Arkadaşının oda kodunu gir ve mücadeleye katıl.</p>
+
+      <label>Oda kodu</label>
+      <input id="joinCode" placeholder="ÖRN: A7K92B"
+        maxlength="6" style="text-transform:uppercase">
+
+      <button class="button" onclick="joinRoom()">
         ODAYA KATIL
       </button>
-      <p class="status" id="joinMessage"></p>
     </div>
-
-    <div class="panel" id="lobby">
-      <h3>ODA BEKLEME ALANI</h3>
-      <p class="muted" id="roomModeText"></p>
-
-      <div class="room-code">
-        ODA KODU
-        <strong id="roomCode">------</strong>
-      </div>
-
-      <button class="secondary" onclick="copyRoomCode()">
-        ODA KODUNU KOPYALA
-      </button>
-
-      <div class="invite-box">
-        <p>Arkadaşlarını VYBE odana davet et!</p>
-        <div class="invite-url" id="inviteUrl">Davet bağlantısı hazırlanıyor...</div>
-        <button class="primary full" onclick="copyInviteLink()">
-          DAVET BAĞLANTISINI KOPYALA
-        </button>
-        <p class="status" id="inviteMessage"></p>
-      </div>
-
-      <p class="muted" id="playerStatus"></p>
-      <div class="players" id="players"></div>
-
-      <button class="secondary" onclick="refreshLobby()">
-        OYUNCU LİSTESİNİ YENİLE
-      </button>
-
-      <button class="primary full" id="startButton" onclick="startGame()" disabled>
-        OYUNU BAŞLAT
-      </button>
-
-      <p class="status" id="startMessage">
-        Oyunu başlatmak için en az 2 oyuncu gerekli.
-      </p>
-
-      <div class="notice">
-        Oyuncular aynı çevrimiçi odada buluşabilir. Oyun başlatıldığında
-        tüm oyuncular otomatik olarak oyun ekranına geçer.
-      </div>
-    </div>
-
-    <div class="panel" id="game">
-      <div class="game-screen">
-        <div class="game-logo">VYBE.</div>
-        <h3>OYUN BAŞLADI!</h3>
-        <p class="muted">
-          Bütün oyuncular oyun alanına geçti.
-        </p>
-
-        <div class="game-wait">
-          <p class="status">OYUN ODASI</p>
-          <h2 id="gameRoomCode">------</h2>
-          <p class="muted" id="gamePlayerCount"></p>
-        </div>
-
-        <p class="status">
-          Kart dağıtımı ve oyun sırası bir sonraki geliştirme aşamasında eklenecek.
-        </p>
-      </div>
-    </div>
-
   </div>
+
+  <p class="status" id="homeStatus"></p>
+</section>
+
+<section id="lobbyPanel" class="glass hidden">
+  <h2 class="section-title">OYUNCU LOBİSİ</h2>
+
+  <p class="description">Oda kodun:</p>
+  <div class="room-code" id="roomCodeDisplay">------</div>
+
+  <div class="actions">
+    <button class="button" onclick="copyRoomCode()">KODU KOPYALA</button>
+    <button class="button" onclick="copyInviteLink()">DAVET LİNKİ</button>
+  </div>
+
+  <p class="status" id="lobbyStatus">Oyuncular bekleniyor...</p>
+
+  <div style="margin-top:25px">
+    <h3 class="section-title">OYUNCULAR</h3>
+    <div id="playersList"></div>
+  </div>
+
+  <div class="actions">
+    <button id="startButton" class="button primary hidden"
+      onclick="startGame()">OYUNU BAŞLAT</button>
+    <button class="button" onclick="leaveToHome()">ANA MENÜ</button>
+  </div>
+</section>
+
+<section id="gamePanel" class="glass hidden">
+  <div class="game-arena">
+    <h2>VYBE ARENA</h2>
+    <p class="description" style="margin-top:20px">
+      Karşılaşma başladı!
+    </p>
+    <p class="status" id="gameStatus"></p>
+    <div class="actions">
+      <button class="button" onclick="copyInviteLink()">DAVET LİNKİ</button>
+      <button class="button" onclick="leaveToHome()">ANA MENÜ</button>
+    </div>
+  </div>
+</section>
+
+<section class="glass">
+  <h2 class="section-title">VYBE HAKKINDA</h2>
+  <p class="description">
+    VYBE, arkadaşlarınla aynı arenada buluşabileceğin
+    rekabet ve strateji odaklı bir oyun platformudur.
+    Odanı oluştur, rakiplerini çağır ve mücadeleye hazırlan.
+  </p>
 </section>
 
 </main>
 
-<footer>
-  VYBE © 2026 — KENDİ TARZINDA OYNA.
+<footer class="footer">
+  VYBE © 2026 — Kendi Tarzında Oyna.
 </footer>
 
 <script>
 const SUPABASE_URL = "https://ovsdzyhsypspgnjfettr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_xQE0UUxS5zr_iSFcipguoQ_4NAx7wkU";
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-let mode = "fixed";
-let room = null;
 let currentUser = null;
-let refreshTimer = null;
-let isShowingGame = false;
+let currentRoom = null;
+let currentRoomId = null;
+let isHost = false;
+let pollInterval = null;
+let fontSize = 16;
 
-function showPanel(name) {
-  document.querySelectorAll(".panel").forEach(panel => {
-    panel.classList.remove("active");
-  });
-  document.getElementById(name).classList.add("active");
+function showStatus(id, message) {
+  document.getElementById(id).textContent = message;
 }
 
-function setStatus(id, message) {
-  document.getElementById(id).textContent = message;
+function showPanel(panel) {
+  ["homePanel","lobbyPanel","gamePanel"].forEach(id => {
+    document.getElementById(id).classList.add("hidden");
+  });
+
+  document.getElementById(panel).classList.remove("hidden");
+}
+
+function changeColor(color) {
+  document.documentElement.style.setProperty("--accent", color);
+
+  const r = parseInt(color.substring(1,3),16);
+  const g = parseInt(color.substring(3,5),16);
+  const b = parseInt(color.substring(5,7),16);
+
+  document.documentElement.style.setProperty(
+    "--accent-rgb", `${r},${g},${b}`
+  );
+}
+
+function changeFont(amount) {
+  fontSize = Math.max(12, Math.min(24, fontSize + amount));
+  document.documentElement.style.setProperty("--text-size", fontSize + "px");
+}
+
+function resetFont() {
+  fontSize = 16;
+  document.documentElement.style.setProperty("--text-size", "16px");
+}
+
+function changeFontFamily(font) {
+  document.body.style.fontFamily = `"${font}", sans-serif`;
 }
 
 async function ensureUser() {
   const { data: sessionData, error: sessionError } =
-    await db.auth.getSession();
+    await supabaseClient.auth.getSession();
 
   if (sessionError) throw sessionError;
 
@@ -277,25 +502,12 @@ async function ensureUser() {
     return currentUser;
   }
 
-  const { data, error } = await db.auth.signInAnonymously();
+  const { data, error } = await supabaseClient.auth.signInAnonymously();
 
   if (error) throw error;
 
   currentUser = data.user;
   return currentUser;
-}
-
-function chooseMode(selected) {
-  mode = selected;
-
-  document.getElementById("fixedMode")
-    .classList.toggle("selected", selected === "fixed");
-
-  document.getElementById("flexMode")
-    .classList.toggle("selected", selected === "flex");
-
-  document.getElementById("countArea").style.display =
-    selected === "fixed" ? "block" : "none";
 }
 
 function generateRoomCode() {
@@ -309,379 +521,296 @@ function generateRoomCode() {
   return code;
 }
 
-function makeInviteLink(code) {
-  const url = new URL(window.location.href);
-  url.search = "";
-  url.searchParams.set("room", code);
-  url.hash = "arena";
-  return url.toString();
-}
-
-function updateInviteDisplay() {
-  if (!room) return;
-
-  document.getElementById("inviteUrl").textContent =
-    makeInviteLink(room.code);
-}
-
-async function copyText(text) {
-  if (navigator.clipboard && window.isSecureContext) {
-    await navigator.clipboard.writeText(text);
-    return;
-  }
-
-  const temporary = document.createElement("textarea");
-  temporary.value = text;
-  temporary.style.position = "fixed";
-  temporary.style.opacity = "0";
-  document.body.appendChild(temporary);
-  temporary.select();
-
-  const copied = document.execCommand("copy");
-  temporary.remove();
-
-  if (!copied) throw new Error("Bağlantı kopyalanamadı.");
-}
-
 async function createRoom() {
-  const button = document.getElementById("createButton");
-  button.disabled = true;
-
   try {
+    showStatus("homeStatus", "Odan hazırlanıyor...");
+
     await ensureUser();
 
-    const target = mode === "fixed"
-      ? Number(document.getElementById("playerCount").value)
-      : 8;
+    const maxPlayers = Number(
+      document.getElementById("maxPlayers").value
+    );
 
-    let createdRoom = null;
+    let room = null;
+    let roomError = null;
 
     for (let attempt = 0; attempt < 5; attempt++) {
       const code = generateRoomCode();
 
-      const { data, error } = await db
+      const result = await supabaseClient
         .from("rooms")
         .insert({
           code: code,
           host_id: currentUser.id,
-          mode: mode,
-          max_players: target,
+          mode: "both",
+          max_players: maxPlayers,
           status: "waiting"
         })
         .select()
         .single();
 
-      if (!error) {
-        createdRoom = data;
+      if (!result.error) {
+        room = result.data;
         break;
       }
 
-      if (error.code !== "23505") throw error;
+      roomError = result.error;
     }
 
-    if (!createdRoom) {
-      throw new Error("Benzersiz bir oda kodu oluşturulamadı.");
-    }
+    if (!room) throw roomError || new Error("Oda oluşturulamadı.");
 
-    const { error: playerError } = await db
+    const { error: playerError } = await supabaseClient
       .from("room_players")
       .insert({
-        room_id: createdRoom.id,
+        room_id: room.id,
         user_id: currentUser.id,
-        display_name: "OYUNCU",
+        display_name: "Oda Sahibi",
         is_host: true
       });
 
     if (playerError) throw playerError;
 
-    room = createdRoom;
+    currentRoom = room;
+    currentRoomId = room.id;
+    isHost = true;
+
     await openLobby();
 
   } catch (error) {
-    alert("Oda oluşturulamadı: " + error.message);
-  } finally {
-    button.disabled = false;
+    showStatus("homeStatus", "Hata: " + error.message);
   }
 }
 
 async function joinRoom() {
-  const button = document.getElementById("joinButton");
-  const code = document.getElementById("joinCode")
-    .value.trim().toUpperCase();
-
-  if (code.length !== 6) {
-    setStatus("joinMessage", "Lütfen 6 karakterli geçerli bir oda kodu gir.");
-    return;
-  }
-
-  button.disabled = true;
-  setStatus("joinMessage", "Odaya bağlanılıyor...");
-
   try {
+    showStatus("homeStatus", "Odaya bağlanılıyor...");
+
     await ensureUser();
 
-    const { data: foundRoom, error } = await db
+    const code = document.getElementById("joinCode")
+      .value.trim().toUpperCase();
+
+    if (!code) {
+      showStatus("homeStatus", "Lütfen oda kodunu gir.");
+      return;
+    }
+
+    const { data: room, error } = await supabaseClient
       .from("rooms")
       .select("*")
       .eq("code", code)
-      .eq("status", "waiting")
       .maybeSingle();
 
     if (error) throw error;
 
-    if (!foundRoom) {
-      throw new Error("Oda bulunamadı veya artık katılıma açık değil.");
+    if (!room) {
+      showStatus("homeStatus", "Bu kodla bir oda bulunamadı.");
+      return;
     }
 
-    const { data: existingPlayers, error: listError } = await db
-      .from("room_players")
-      .select("*")
-      .eq("room_id", foundRoom.id);
+    if (room.status !== "waiting") {
+      showStatus("homeStatus", "Bu oyun zaten başlamış.");
+      return;
+    }
 
-    if (listError) throw listError;
+    const { data: existingPlayer, error: existingError } =
+      await supabaseClient
+        .from("room_players")
+        .select("*")
+        .eq("room_id", room.id)
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
 
-    const alreadyJoined = existingPlayers.some(
-      p => p.user_id === currentUser.id
-    );
+    if (existingError) throw existingError;
 
-    if (!alreadyJoined) {
-      if (existingPlayers.length >= foundRoom.max_players) {
-        throw new Error("Bu oda dolu.");
+    if (!existingPlayer) {
+      const { count, error: countError } = await supabaseClient
+        .from("room_players")
+        .select("*", { count: "exact", head: true })
+        .eq("room_id", room.id);
+
+      if (countError) throw countError;
+
+      if (count >= room.max_players) {
+        showStatus("homeStatus", "Bu oda dolu.");
+        return;
       }
 
-      const { error: joinError } = await db
+      const { error: insertError } = await supabaseClient
         .from("room_players")
         .insert({
-          room_id: foundRoom.id,
+          room_id: room.id,
           user_id: currentUser.id,
-          display_name: "OYUNCU",
+          display_name: "Oyuncu",
           is_host: false
         });
 
-      if (joinError) throw joinError;
+      if (insertError) throw insertError;
     }
 
-    room = foundRoom;
+    currentRoom = room;
+    currentRoomId = room.id;
+    isHost = room.host_id === currentUser.id;
+
     await openLobby();
 
   } catch (error) {
-    setStatus("joinMessage", "Odaya katılınamadı: " + error.message);
-  } finally {
-    button.disabled = false;
+    showStatus("homeStatus", "Hata: " + error.message);
   }
 }
 
 async function openLobby() {
-  isShowingGame = false;
+  document.getElementById("roomCodeDisplay").textContent =
+    currentRoom.code;
 
-  document.getElementById("roomCode").textContent = room.code;
-  updateInviteDisplay();
+  showPanel("lobbyPanel");
 
-  document.getElementById("roomModeText").textContent =
-    room.mode === "fixed"
-      ? "Sabit oda • " + room.max_players + " oyuncu"
-      : "Serbest oda • En fazla 8 oyuncu";
+  const params = new URLSearchParams(window.location.search);
 
-  showPanel("lobby");
+  if (params.has("room")) {
+    history.replaceState({}, "", window.location.pathname + "#arena");
+  }
+
   await refreshLobby();
 
-  if (refreshTimer) clearInterval(refreshTimer);
+  if (pollInterval) clearInterval(pollInterval);
 
-  if (!isShowingGame) {
-    refreshTimer = setInterval(() => {
-      if (room && !isShowingGame) refreshLobby();
-    }, 3000);
-  }
+  pollInterval = setInterval(refreshLobby, 3000);
 }
 
 async function refreshLobby() {
-  if (!room || !currentUser || isShowingGame) return;
+  if (!currentRoomId) return;
 
   try {
-    const { data: latestRoom, error: roomError } = await db
+    const { data: room, error: roomError } = await supabaseClient
       .from("rooms")
       .select("*")
-      .eq("id", room.id)
+      .eq("id", currentRoomId)
       .single();
 
     if (roomError) throw roomError;
 
-    room = latestRoom;
+    currentRoom = room;
 
     if (room.status === "playing") {
-      await showGameScreen();
+      showGameScreen();
       return;
     }
 
-    const { data: playerList, error } = await db
+    const { data: players, error: playersError } = await supabaseClient
       .from("room_players")
       .select("*")
-      .eq("room_id", room.id)
+      .eq("room_id", currentRoomId)
       .order("joined_at", { ascending: true });
 
-    if (error) throw error;
+    if (playersError) throw playersError;
 
-    const count = playerList.length;
-
-    document.getElementById("playerStatus").textContent =
-      count + " / " + room.max_players + " OYUNCU";
-
-    const list = document.getElementById("players");
+    const list = document.getElementById("playersList");
     list.innerHTML = "";
 
-    playerList.forEach(player => {
+    players.forEach((player, index) => {
       const item = document.createElement("div");
-      item.className = player.is_host ? "player host" : "player";
+      item.className = "player" + (player.is_host ? " host" : "");
 
-      item.textContent =
-        player.display_name +
-        (player.is_host ? " • ODA KURUCUSU" : "");
+      const name = player.display_name || `Oyuncu ${index + 1}`;
+
+      item.textContent = name + (player.is_host ? "  ·  ODA SAHİBİ" : "");
 
       list.appendChild(item);
     });
 
-    for (let i = count; i < room.max_players; i++) {
-      const item = document.createElement("div");
-      item.className = "player";
-      item.textContent = "OYUNCU BEKLENİYOR...";
-      list.appendChild(item);
-    }
+    showStatus(
+      "lobbyStatus",
+      `${players.length} / ${room.max_players} oyuncu hazır.`
+    );
 
-    const isHost = room.host_id === currentUser.id;
-
-    const canStart = count >= 2 &&
-      (room.mode === "flex" || count === room.max_players);
-
-    const startButton = document.getElementById("startButton");
-    startButton.disabled = !canStart || !isHost;
-    startButton.style.opacity = canStart && isHost ? "1" : "0.4";
-
-    document.getElementById("startMessage").textContent =
-      !isHost
-        ? "Oda kurucusunun oyunu başlatması bekleniyor."
-        : canStart
-          ? "Her şey hazır! Oyunu başlatabilirsin."
-          : room.mode === "fixed"
-            ? "Seçilen oyuncu sayısının tamamlanması bekleniyor."
-            : "Oyunu başlatmak için en az 2 oyuncu gerekli.";
+    document.getElementById("startButton")
+      .classList.toggle("hidden", !isHost);
 
   } catch (error) {
-    setStatus("startMessage", "Oda bilgileri yenilenemedi: " + error.message);
+    showStatus("lobbyStatus", "Lobi güncellenemedi: " + error.message);
   }
 }
 
-async function showGameScreen() {
-  if (isShowingGame) return;
-
-  isShowingGame = true;
-
-  if (refreshTimer) {
-    clearInterval(refreshTimer);
-    refreshTimer = null;
+function showGameScreen() {
+  if (pollInterval) {
+    clearInterval(pollInterval);
+    pollInterval = null;
   }
 
-  const { data: playerList, error } = await db
-    .from("room_players")
-    .select("*")
-    .eq("room_id", room.id);
-
-  if (error) {
-    console.error("Oyuncular alınamadı:", error.message);
-  }
-
-  document.getElementById("gameRoomCode").textContent = room.code;
-  document.getElementById("gamePlayerCount").textContent =
-    (playerList ? playerList.length : 0) + " oyuncu bu odada.";
-
-  showPanel("game");
-}
-
-async function copyRoomCode() {
-  if (!room) return;
-
-  try {
-    await copyText(room.code);
-    alert("Oda kodu kopyalandı!");
-  } catch {
-    alert("Oda kodun: " + room.code);
-  }
-}
-
-async function copyInviteLink() {
-  if (!room) return;
-
-  const link = makeInviteLink(room.code);
-
-  try {
-    await copyText(link);
-    setStatus("inviteMessage", "Davet bağlantısı kopyalandı! Arkadaşlarınla paylaşabilirsin.");
-  } catch (error) {
-    setStatus("inviteMessage", "Bağlantı kopyalanamadı: " + error.message);
-  }
+  showPanel("gamePanel");
+  showStatus("gameStatus", "Oyuncular arenada buluştu.");
 }
 
 async function startGame() {
-  if (!room || !currentUser) return;
-  if (room.host_id !== currentUser.id) return;
-
-  const button = document.getElementById("startButton");
-  button.disabled = true;
-  setStatus("startMessage", "Oyun başlatılıyor...");
+  if (!currentRoom || !isHost) return;
 
   try {
-    const { data, error } = await db
+    const { error } = await supabaseClient
       .from("rooms")
       .update({ status: "playing" })
-      .eq("id", room.id)
-      .eq("host_id", currentUser.id)
-      .select()
-      .single();
+      .eq("id", currentRoomId);
 
     if (error) throw error;
 
-    room = data;
-    await showGameScreen();
+    currentRoom.status = "playing";
+    showGameScreen();
 
   } catch (error) {
-    alert("Oyun başlatılamadı: " + error.message);
-    button.disabled = false;
-    await refreshLobby();
+    showStatus("lobbyStatus", "Oyun başlatılamadı: " + error.message);
   }
 }
 
-async function checkInviteLink() {
-  const params = new URLSearchParams(window.location.search);
-  const invitedCode = params.get("room");
+function copyRoomCode() {
+  if (!currentRoom) return;
 
-  if (!invitedCode) return;
-
-  const code = invitedCode.trim().toUpperCase();
-
-  if (!/^[A-Z0-9]{6}$/.test(code)) return;
-
-  document.getElementById("joinCode").value = code;
-  setStatus("joinMessage", "Davet bağlantısı algılandı. Odaya katılabilirsin.");
-
-  showPanel("join");
-
-  setTimeout(() => {
-    document.getElementById("arena").scrollIntoView({
-      behavior: "smooth"
-    });
-  }, 400);
+  navigator.clipboard.writeText(currentRoom.code)
+    .then(() => showStatus("lobbyStatus", "Oda kodu kopyalandı!"))
+    .catch(() => showStatus("lobbyStatus", "Kod: " + currentRoom.code));
 }
 
-window.addEventListener("beforeunload", () => {
-  if (refreshTimer) clearInterval(refreshTimer);
-});
+function copyInviteLink() {
+  if (!currentRoom) return;
+
+  const link = window.location.origin +
+    window.location.pathname +
+    "?room=" + currentRoom.code + "#arena";
+
+  navigator.clipboard.writeText(link)
+    .then(() => showStatus("lobbyStatus", "Davet bağlantısı kopyalandı!"))
+    .catch(() => showStatus("lobbyStatus", link));
+}
+
+function leaveToHome() {
+  if (pollInterval) {
+    clearInterval(pollInterval);
+    pollInterval = null;
+  }
+
+  currentRoom = null;
+  currentRoomId = null;
+  isHost = false;
+
+  history.replaceState({}, "", window.location.pathname);
+  showPanel("homePanel");
+}
 
 async function initializeVYBE() {
   try {
     await ensureUser();
-    console.log("VYBE bağlantısı kuruldu.");
-    checkInviteLink();
+
+    const params = new URLSearchParams(window.location.search);
+    const inviteCode = params.get("room");
+
+    if (inviteCode) {
+      document.getElementById("joinCode").value =
+        inviteCode.toUpperCase();
+
+      showStatus("homeStatus", "Davet odası bulundu. Katıl butonuna bas.");
+    }
+
   } catch (error) {
-    console.error("VYBE bağlantı hatası:", error);
+    showStatus("homeStatus", "Bağlantı hatası: " + error.message);
   }
 }
 
