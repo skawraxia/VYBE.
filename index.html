@@ -56,6 +56,9 @@ select,input{width:100%;padding:14px;background:#21172d;color:white;border:1px s
 .game-screen{text-align:center;padding:35px 10px}
 .game-logo{font-size:48px;font-weight:900;letter-spacing:8px;background:linear-gradient(90deg,#b45aff,#ff55ae);background-clip:text;-webkit-background-clip:text;color:transparent;margin-bottom:20px}
 .game-wait{margin-top:25px;padding:22px;background:#261635;border:1px solid #a94cff55;border-radius:12px}
+.invite-box{margin-top:20px;padding:18px;background:#1d1429;border:1px solid #70418f;border-radius:10px}
+.invite-box p{font-size:13px;color:#c9b6d8;line-height:1.6;margin-bottom:10px}
+.invite-url{font-size:12px;color:#e5a0ff;overflow-wrap:anywhere;line-height:1.6}
 footer{padding:30px;text-align:center;color:#777;border-top:1px solid #ffffff15;font-size:12px;letter-spacing:2px}
 @media(max-width:600px){
 header{padding:0 5%}
@@ -181,6 +184,15 @@ nav a{font-size:10px}
         ODA KODUNU KOPYALA
       </button>
 
+      <div class="invite-box">
+        <p>Arkadaşlarını VYBE odana davet et!</p>
+        <div class="invite-url" id="inviteUrl">Davet bağlantısı hazırlanıyor...</div>
+        <button class="primary full" onclick="copyInviteLink()">
+          DAVET BAĞLANTISINI KOPYALA
+        </button>
+        <p class="status" id="inviteMessage"></p>
+      </div>
+
       <p class="muted" id="playerStatus"></p>
       <div class="players" id="players"></div>
 
@@ -241,6 +253,7 @@ let mode = "fixed";
 let room = null;
 let currentUser = null;
 let refreshTimer = null;
+let isShowingGame = false;
 
 function showPanel(name) {
   document.querySelectorAll(".panel").forEach(panel => {
@@ -294,6 +307,40 @@ function generateRoomCode() {
   }
 
   return code;
+}
+
+function makeInviteLink(code) {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.searchParams.set("room", code);
+  url.hash = "arena";
+  return url.toString();
+}
+
+function updateInviteDisplay() {
+  if (!room) return;
+
+  document.getElementById("inviteUrl").textContent =
+    makeInviteLink(room.code);
+}
+
+async function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const temporary = document.createElement("textarea");
+  temporary.value = text;
+  temporary.style.position = "fixed";
+  temporary.style.opacity = "0";
+  document.body.appendChild(temporary);
+  temporary.select();
+
+  const copied = document.execCommand("copy");
+  temporary.remove();
+
+  if (!copied) throw new Error("Bağlantı kopyalanamadı.");
 }
 
 async function createRoom() {
@@ -425,7 +472,10 @@ async function joinRoom() {
 }
 
 async function openLobby() {
+  isShowingGame = false;
+
   document.getElementById("roomCode").textContent = room.code;
+  updateInviteDisplay();
 
   document.getElementById("roomModeText").textContent =
     room.mode === "fixed"
@@ -437,16 +487,17 @@ async function openLobby() {
 
   if (refreshTimer) clearInterval(refreshTimer);
 
-  refreshTimer = setInterval(() => {
-    if (room) refreshLobby();
-  }, 3000);
+  if (!isShowingGame) {
+    refreshTimer = setInterval(() => {
+      if (room && !isShowingGame) refreshLobby();
+    }, 3000);
+  }
 }
 
 async function refreshLobby() {
-  if (!room || !currentUser) return;
+  if (!room || !currentUser || isShowingGame) return;
 
   try {
-    // Önce odanın güncel durumunu kontrol et.
     const { data: latestRoom, error: roomError } = await db
       .from("rooms")
       .select("*")
@@ -457,7 +508,6 @@ async function refreshLobby() {
 
     room = latestRoom;
 
-    // Oda kurucusu oyunu başlattıysa herkes oyun ekranına geçer.
     if (room.status === "playing") {
       await showGameScreen();
       return;
@@ -481,7 +531,6 @@ async function refreshLobby() {
 
     playerList.forEach(player => {
       const item = document.createElement("div");
-
       item.className = player.is_host ? "player host" : "player";
 
       item.textContent =
@@ -522,6 +571,10 @@ async function refreshLobby() {
 }
 
 async function showGameScreen() {
+  if (isShowingGame) return;
+
+  isShowingGame = true;
+
   if (refreshTimer) {
     clearInterval(refreshTimer);
     refreshTimer = null;
@@ -547,10 +600,23 @@ async function copyRoomCode() {
   if (!room) return;
 
   try {
-    await navigator.clipboard.writeText(room.code);
+    await copyText(room.code);
     alert("Oda kodu kopyalandı!");
   } catch {
     alert("Oda kodun: " + room.code);
+  }
+}
+
+async function copyInviteLink() {
+  if (!room) return;
+
+  const link = makeInviteLink(room.code);
+
+  try {
+    await copyText(link);
+    setStatus("inviteMessage", "Davet bağlantısı kopyalandı! Arkadaşlarınla paylaşabilirsin.");
+  } catch (error) {
+    setStatus("inviteMessage", "Bağlantı kopyalanamadı: " + error.message);
   }
 }
 
@@ -583,13 +649,43 @@ async function startGame() {
   }
 }
 
+async function checkInviteLink() {
+  const params = new URLSearchParams(window.location.search);
+  const invitedCode = params.get("room");
+
+  if (!invitedCode) return;
+
+  const code = invitedCode.trim().toUpperCase();
+
+  if (!/^[A-Z0-9]{6}$/.test(code)) return;
+
+  document.getElementById("joinCode").value = code;
+  setStatus("joinMessage", "Davet bağlantısı algılandı. Odaya katılabilirsin.");
+
+  showPanel("join");
+
+  setTimeout(() => {
+    document.getElementById("arena").scrollIntoView({
+      behavior: "smooth"
+    });
+  }, 400);
+}
+
 window.addEventListener("beforeunload", () => {
   if (refreshTimer) clearInterval(refreshTimer);
 });
 
-ensureUser()
-  .then(() => console.log("VYBE bağlantısı kuruldu."))
-  .catch(error => console.error("VYBE bağlantı hatası:", error));
+async function initializeVYBE() {
+  try {
+    await ensureUser();
+    console.log("VYBE bağlantısı kuruldu.");
+    checkInviteLink();
+  } catch (error) {
+    console.error("VYBE bağlantı hatası:", error);
+  }
+}
+
+initializeVYBE();
 </script>
 
 </body>
