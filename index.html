@@ -89,8 +89,9 @@ button {
   gap: 15px;
   flex-wrap: wrap;
   padding: 15px 5%;
-  background: rgba(9,6,22,.88);
+  background: rgba(9,6,22,0.55);
   backdrop-filter: blur(18px);
+  -webkit-background-filter: blur(18px)
   border-bottom: 1px solid var(--border);
 }
 
@@ -160,14 +161,11 @@ main {
 
 .glass {
   position: relative;
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 23px 23px 23px 8px;
+  background: rgba(20, 12, 40, 0.45);
   backdrop-filter: blur(18px);
-  box-shadow: 0 0 35px rgba(var(--accent-rgb),.13);
-  padding: 27px;
-  margin-bottom: 23px;
-  overflow: hidden;
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 35px rgba(var(--accent-rgb), 0.13);
 }
 
 .glass::after {
