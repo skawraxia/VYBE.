@@ -8,6 +8,98 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
+
+<style>
+@font-face {
+  font-family: "TanNimbus";
+  src: url("./TAN-NIMBUS.otf") format("opentype");
+  font-display: swap;
+}
+  @font-face {
+  font-family: "Benathio";
+  src: url("./BENATHIO.otf") format("opentype");
+  font-display: swap;
+}
+
+:root {
+  --accent: #a855f7;
+  --accent-rgb: 168,85,247;
+  --text-size: 16px;
+  --glass: rgba(17, 11, 35, .76);
+  --border: rgba(190, 140, 255, .38);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  color: #f7f1ff;
+  font-family: Arial, sans-serif;
+  font-size: var(--text-size);
+  background: #090614;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      rgba(8,5,20,.12),
+      rgba(8,5,20,.30)
+    ),
+    url("./arena-bg.png") center center / cover no-repeat;
+  animation: arenaMove 22s ease-in-out infinite alternate;
+  transform: scale(1.04);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 20%,
+      rgba(var(--accent-rgb),.12), transparent 55%);
+}
+
+@keyframes arenaMove {
+  from { transform: scale(1.04) translateY(0); }
+  to { transform: scale(1.12) translateY(-10px); }
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 15px 5%;
+  background: rgba(9,6,22,0.55);
+  backdrop-filter: blur(18px);
+  -webkit-background-filter: blur(18px)
+  border-bottom: 1px solid var(--border);
+}
 /* VYBE MOVE kart alanı */
 .move-hand {
   display: grid;
@@ -153,98 +245,6 @@
     font-size: 11px;
   }
 }
-
-<style>
-@font-face {
-  font-family: "TanNimbus";
-  src: url("./TAN-NIMBUS.otf") format("opentype");
-  font-display: swap;
-}
-  @font-face {
-  font-family: "Benathio";
-  src: url("./BENATHIO.otf") format("opentype");
-  font-display: swap;
-}
-
-:root {
-  --accent: #a855f7;
-  --accent-rgb: 168,85,247;
-  --text-size: 16px;
-  --glass: rgba(17, 11, 35, .76);
-  --border: rgba(190, 140, 255, .38);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  min-height: 100vh;
-  color: #f7f1ff;
-  font-family: Arial, sans-serif;
-  font-size: var(--text-size);
-  background: #090614;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      rgba(8,5,20,.12),
-      rgba(8,5,20,.30)
-    ),
-    url("./arena-bg.png") center center / cover no-repeat;
-  animation: arenaMove 22s ease-in-out infinite alternate;
-  transform: scale(1.04);
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 50% 20%,
-      rgba(var(--accent-rgb),.12), transparent 55%);
-}
-
-@keyframes arenaMove {
-  from { transform: scale(1.04) translateY(0); }
-  to { transform: scale(1.12) translateY(-10px); }
-}
-
-button, input, select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  flex-wrap: wrap;
-  padding: 15px 5%;
-  background: rgba(9,6,22,0.55);
-  backdrop-filter: blur(18px);
-  -webkit-background-filter: blur(18px)
-  border-bottom: 1px solid var(--border);
-}
-
 .logo {
   font-family: "TanNimbus", Georgia, serif;
   font-size: 31px;
