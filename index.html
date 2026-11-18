@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -8,15 +7,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
-
 <style>
 @font-face {
   font-family: "TanNimbus";
   src: url("./TAN-NIMBUS.otf") format("opentype");
   font-display: swap;
 }
-  @font-face {
+@font-face {
   font-family: "Benathio";
   src: url("./BENATHIO.otf") format("opentype");
   font-display: swap;
@@ -97,154 +94,10 @@ button {
   padding: 15px 5%;
   background: rgba(9,6,22,0.55);
   backdrop-filter: blur(18px);
-  -webkit-background-filter: blur(18px)
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--border);
 }
-/* VYBE MOVE kart alanı */
-.move-hand {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-  gap: 14px;
-  width: 100%;
-  margin-top: 24px;
-}
 
-.move-card {
-  position: relative;
-  min-height: 245px;
-  padding: 15px 13px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-  color: #f7e8ed;
-  background: linear-gradient(145deg, #a87588, #60384f 78%);
-  border: 5px solid #080609;
-  border-radius: 25px;
-  box-shadow: 0 8px 22px rgba(0,0,0,.28);
-}
-
-.move-card::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border: 1px solid rgba(255,220,232,.16);
-  border-radius: 17px;
-  pointer-events: none;
-}
-
-.move-card::after {
-  content: "";
-  position: absolute;
-  right: -5px;
-  top: 43%;
-  width: 24px;
-  height: 48px;
-  background: rgba(15,10,15,.68);
-  clip-path: polygon(100% 0,100% 100%,0 50%);
-}
-
-.move-card-top,
-.move-card-symbol,
-.move-card-effect,
-.move-card-title,
-.move-card-play {
-  position: relative;
-  z-index: 1;
-}
-
-.move-card-top {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #160d13;
-  font-family: "Benathio", Georgia, serif;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-.move-card-title {
-  margin-top: 12px;
-  color: #f3dce5;
-  font-family: "TanNimbus", Georgia, serif;
-  font-size: clamp(20px, 3vw, 27px);
-  font-weight: normal;
-}
-
-.move-card-symbol {
-  font-size: 48px;
-  line-height: 1.1;
-  color: rgba(246,190,211,.85);
-}
-
-.move-card-effect {
-  max-width: 145px;
-  color: #f4e4e9;
-  font-family: Georgia, serif;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.move-card-play {
-  margin-top: 12px;
-  width: 100%;
-  padding: 9px 7px;
-  color: #fff;
-  background: rgba(12,7,13,.55);
-  border: 1px solid rgba(255,225,236,.35);
-  border-radius: 9px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.move-card-play:hover {
-  background: rgba(12,7,13,.82);
-  transform: translateY(-2px);
-}
-
-.game-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  margin-top: 18px;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  background: rgba(255,255,255,.045);
-}
-
-.game-note {
-  color: #d8c9ed;
-  font-size: .9em;
-  line-height: 1.5;
-}
-
-@media(max-width:520px) {
-  .move-hand {
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap: 9px;
-  }
-
-  .move-card {
-    min-height: 220px;
-    padding: 12px 9px;
-    border-width: 4px;
-  }
-
-  .move-card-symbol {
-    font-size: 40px;
-  }
-
-  .move-card-effect {
-    font-size: 11px;
-  }
-}
 .logo {
   font-family: "TanNimbus", Georgia, serif;
   font-size: 31px;
@@ -309,7 +162,6 @@ main {
   font-size: .9em;
 }
 
-
 .glass {
   position: relative;
   width: 100%;
@@ -317,11 +169,9 @@ main {
   margin: 0 0 24px;
   padding: 28px;
   border-radius: 22px;
-
   background: rgba(20, 12, 40, 0.45);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 35px rgba(var(--accent-rgb), 0.13);
 }
@@ -342,7 +192,6 @@ main {
   background: rgba(100, 65, 145, 0.42);
   border-color: rgba(205, 170, 255, 0.28);
 }
-
 
 .section-title,
 .game-arena h2 {
@@ -538,344 +387,125 @@ label {
     transition-duration: .01ms !important;
   }
 }
-</style>
-</head>
 
-<body>
-
-<header class="topbar">
-  <div class="logo">VYBE.</div>
-
-  <div class="menu">
-    <button onclick="changeFont(-1)">A−</button>
-    <button onclick="resetFont()">A</button>
-    <button onclick="changeFont(1)">A+</button>
-
-    <label style="margin:0;display:flex;align-items:center;gap:7px">
-      <span>Renk</span>
-      <input class="color-control" id="colorPicker"
-        type="color" value="#a855f7"
-        onchange="changeColor(this.value)"
-        style="margin:0;padding:0">
-    </label>
-
-    <select id="fontPicker" onchange="changeFontFamily(this.value)"
-      style="width:auto;margin:0">
-      <option value="Arial">Arial</option>
-      <option value="Verdana">Verdana</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Trebuchet MS">Trebuchet</option>
-      <option value="Courier New">Courier</option>
-    </select>
-  </div>
-</header>
-
-<main>
-
-<section class="hero">
-  <h1>VYBE.</h1>
-  <p>KENDİ TARZINDA OYNA.</p>
-</section>
-
-<section class="glass">
-  <h2 class="section-title">ARENA'YA HOŞ GELDİN</h2>
-  <p class="description">
-    Stratejini belirle, rakiplerini tanı ve kendi oyununu kur.
-    VYBE'da her karşılaşma yeni bir mücadele.
-  </p>
-</section>
-
-<section class="glass about-panel">
-  <h2 class="section-title">VYBE HAKKINDA</h2>
-  <p class="description">
-    VYBE, arkadaşlarınla aynı arenada buluşabileceğin
-    rekabet ve strateji odaklı bir oyun platformudur.
-    Odanı oluştur, rakiplerini çağır ve mücadeleye hazırlan.
-  </p>
-</section>
-
-<section id="homePanel" class="glass">
-  <h2 class="section-title">OYUNUNU BAŞLAT</h2>
-
-  <div class="grid">
-    <div class="choice-card">
-      <h3>Yeni Oda Oluştur</h3>
-      <p class="description">Kendi arenanı kur ve oyuncuları davet et.</p>
-
-      <div class="actions">
-        <button class="button primary" onclick="toggleCreateOptions()">
-          ODA OLUŞTUR
-        </button>
-      </div>
-
-      <div id="createOptions" class="hidden fade-in">
-        <label>Oyuncu sayısı</label>
-        <select id="maxPlayers">
-          <option value="2">2 oyuncu</option>
-          <option value="3">3 oyuncu</option>
-          <option value="4" selected>4 oyuncu</option>
-          <option value="5">5 oyuncu</option>
-          <option value="6">6 oyuncu</option>
-          <option value="7">7 oyuncu</option>
-          <option value="8">8 oyuncu</option>
-        </select>
-
-        <button class="button primary" onclick="createRoom()">
-          ARENAYI KUR
-        </button>
-      </div>
-    </div>
-
-    <div class="choice-card">
-      <h3>Bir Odaya Katıl</h3>
-      <p class="description">Arkadaşının oda kodunu gir ve mücadeleye katıl.</p>
-
-      <div class="actions">
-        <button class="button" onclick="toggleJoinOptions()">
-          ODAYA KATIL
-        </button>
-      </div>
-
-      <div id="joinOptions" class="hidden fade-in">
-        <label>Oda kodu</label>
-        <input id="joinCode" placeholder="ÖRN: A7K92B"
-          maxlength="6" style="text-transform:uppercase">
-
-        <button class="button primary" onclick="joinRoom()">
-          KATIL
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <p class="status" id="homeStatus"></p>
-</section>
-
-<section id="lobbyPanel" class="glass hidden">
-  <h2 class="section-title">OYUNCU LOBİSİ</h2>
-
-  <p class="description">Oda kodun:</p>
-  <div class="room-code" id="roomCodeDisplay">------</div>
-
-  <div class="actions">
-    <button class="button" onclick="copyRoomCode()">KODU KOPYALA</button>
-    <button class="button" onclick="copyInviteLink()">DAVET LİNKİ</button>
-  </div>
-
-  <p class="status" id="lobbyStatus">Oyuncular bekleniyor...</p>
-
-  <div style="margin-top:25px">
-    <h3 class="section-title">OYUNCULAR</h3>
-    <div id="playersList"></div>
-  </div>
-
-  <div class="actions">
-    <button id="startButton" class="button primary hidden"
-      onclick="startGame()">OYUNU BAŞLAT</button>
-    <button class="button" onclick="leaveToHome()">ANA MENÜ</button>
-  </div>
-</section>
-
-<section id="gamePanel" class="glass hidden">
-  <div class="game-arena">
-    <h2>VYBE ARENA</h2>
-    <p class="description" style="margin-top:20px">
-      Karşılaşma başladı!
-    </p>
-    <p class="status" id="gameStatus"></p>
-    <div class="actions">
-      <button class="button" onclick="copyInviteLink()">DAVET LİNKİ</button>
-      <button class="button" onclick="leaveToHome()">ANA MENÜ</button>
-    </div>
-  </div>
-</section>
-
-</main>
-
-
-<footer class="footer">
-  VYBE © 2026 — Kendi Tarzında Oyna.
-</footer>
-
-<script>
-const SUPABASE_URL = "https://ovsdzyhsypspgnjfettr.supabase.co";
-const SUPABASE_KEY = "sb_publishable_xQE0UUxS5zr_iSFcipguoQ_4NAx7wkU";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-let currentUser = null;
-let currentRoom = null;
-let currentRoomId = null;
-let isHost = false;
-let pollInterval = null;
-let fontSize = 16;
-
-function showStatus(id, message) {
-  document.getElementById(id).textContent = message;
+/* VYBE MOVE kart alanı */
+.move-hand {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 14px;
+  width: 100%;
+  margin-top: 24px;
 }
 
-function showPanel(panel) {
-  ["homePanel","lobbyPanel","gamePanel"].forEach(id => {
-    document.getElementById(id).classList.add("hidden");
-  });
-
-  document.getElementById(panel).classList.remove("hidden");
+.move-card {
+  position: relative;
+  min-height: 245px;
+  padding: 15px 13px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  color: #f7e8ed;
+  background: linear-gradient(145deg, #a87588, #60384f 78%);
+  border: 5px solid #080609;
+  border-radius: 25px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.28);
 }
 
-function toggleCreateOptions() {
-  document.getElementById("createOptions").classList.toggle("hidden");
-  document.getElementById("joinOptions").classList.add("hidden");
+.move-card::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(255,220,232,.16);
+  border-radius: 17px;
+  pointer-events: none;
 }
 
-function toggleJoinOptions(forceOpen = false) {
-  const panel = document.getElementById("joinOptions");
-
-  if (forceOpen) {
-    panel.classList.remove("hidden");
-  } else {
-    panel.classList.toggle("hidden");
-  }
-
-  document.getElementById("createOptions").classList.add("hidden");
+.move-card::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 43%;
+  width: 24px;
+  height: 48px;
+  background: rgba(15,10,15,.68);
+  clip-path: polygon(100% 0,100% 100%,0 50%);
 }
 
-function changeColor(color) {
-  document.documentElement.style.setProperty("--accent", color);
-
-  const r = parseInt(color.substring(1,3),16);
-  const g = parseInt(color.substring(3,5),16);
-  const b = parseInt(color.substring(5,7),16);
-
-  document.documentElement.style.setProperty(
-    "--accent-rgb", `${r},${g},${b}`
-  );
-
-  localStorage.setItem("vybeAccent", color);
+.move-card-top,
+.move-card-symbol,
+.move-card-effect,
+.move-card-title,
+.move-card-play {
+  position: relative;
+  z-index: 1;
 }
 
-function changeFont(amount) {
-  fontSize = Math.max(12, Math.min(24, fontSize + amount));
-  document.documentElement.style.setProperty("--text-size", fontSize + "px");
-  localStorage.setItem("vybeFontSize", fontSize);
+.move-card-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #160d13;
+  font-family: "Benathio", Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 1px;
 }
 
-function resetFont() {
-  fontSize = 16;
-  document.documentElement.style.setProperty("--text-size", "16px");
-  localStorage.setItem("vybeFontSize", 16);
+.move-card-title {
+  margin-top: 12px;
+  color: #f3dce5;
+  font-family: "TanNimbus", Georgia, serif;
+  font-size: clamp(20px, 3vw, 27px);
+  font-weight: normal;
 }
 
-function changeFontFamily(font) {
-  document.body.style.fontFamily = `"${font}", sans-serif`;
-  localStorage.setItem("vybeFontFamily", font);
+.move-card-symbol {
+  font-size: 48px;
+  line-height: 1.1;
+  color: rgba(246,190,211,.85);
 }
 
-function loadPreferences() {
-  const savedColor = localStorage.getItem("vybeAccent");
-  const savedSize = localStorage.getItem("vybeFontSize");
-  const savedFont = localStorage.getItem("vybeFontFamily");
-
-  if (savedColor) {
-    document.getElementById("colorPicker").value = savedColor;
-    changeColor(savedColor);
-  }
-
-  if (savedSize) {
-    fontSize = Math.max(12, Math.min(24, Number(savedSize)));
-    document.documentElement.style.setProperty("--text-size", fontSize + "px");
-  }
-
-  if (savedFont) {
-    document.getElementById("fontPicker").value = savedFont;
-    changeFontFamily(savedFont);
-  }
+.move-card-effect {
+  max-width: 145px;
+  color: #f4e4e9;
+  font-family: Georgia, serif;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
-async function ensureUser() {
-  const { data: sessionData, error: sessionError } =
-    await supabaseClient.auth.getSession();
-
-  if (sessionError) throw sessionError;
-
-  if (sessionData.session) {
-    currentUser = sessionData.session.user;
-    return currentUser;
-  }
-
-  const { data, error } = await supabaseClient.auth.signInAnonymously();
-
-  if (error) throw error;
-
-  currentUser = data.user;
-  return currentUser;
+.move-card-play {
+  margin-top: 12px;
+  width: 100%;
+  padding: 9px 7px;
+  color: #fff;
+  background: rgba(12,7,13,.55);
+  border: 1px solid rgba(255,225,236,.35);
+  border-radius: 9px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
-function generateRoomCode() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let code = "";
-
-  for (let i = 0; i < 6; i++) {
-    code += chars[Math.floor(Math.random() * chars.length)];
-  }
-
-  return code;
+.move-card-play:hover {
+  background: rgba(12,7,13,.82);
+  transform: translateY(-2px);
 }
-
-async function createRoom() {
-  try {
-    showStatus("homeStatus", "Odan hazırlanıyor...");
-
-    await ensureUser();
-
-    const maxPlayers = Number(
-      document.getElementById("maxPlayers").value
-    );
-
-    let room = null;
-    let roomError = null;
-
-    for (let attempt = 0; attempt < 5; attempt++) {
-      const code = generateRoomCode();
-
-      const result = await supabaseClient
-        .from("rooms")
+        .from("room_players")
         .insert({
-          code: code,
-          host_id: currentUser.id,
-          mode: "fixed",
-          max_players: maxPlayers,
-          status: "waiting"
-        })
-        .select()
-        .single();
+          room_id: room.id,
+          user_id: currentUser.id,
+          display_name: "Oyuncu",
+          is_host: false
+        });
 
-      if (!result.error) {
-        room = result.data;
-        break;
-      }
-
-      roomError = result.error;
+      if (insertError) throw insertError;
     }
-
-    if (!room) throw roomError || new Error("Oda oluşturulamadı.");
-
-    const { error: playerError } = await supabaseClient
-      .from("room_players")
-      .insert({
-        room_id: room.id,
-        user_id: currentUser.id,
-        display_name: "Oda Sahibi",
-        is_host: true
-      });
-
-    if (playerError) throw playerError;
 
     currentRoom = room;
     currentRoomId = room.id;
-    isHost = true;
+    isHost = room.host_id === currentUser.id;
 
     await openLobby();
 
@@ -884,63 +514,376 @@ async function createRoom() {
   }
 }
 
-async function joinRoom() {
-  try {
-    showStatus("homeStatus", "Odaya bağlanılıyor...");
+async function openLobby() {
+  showPanel("lobbyPanel");
+  document.getElementById("roomCodeDisplay").textContent = currentRoom.code;
+  await refreshLobby();
 
-    await ensureUser();
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(refreshLobby, 3000);
+}
 
-    const code = document.getElementById("joinCode")
-      .value.trim().toUpperCase();
+async function refreshLobby() {
+  if (!currentRoomId) return;
 
-    if (!code) {
-      showStatus("homeStatus", "Lütfen oda kodunu gir.");
-      return;
+  const { data: room, error: roomError } = await supabaseClient
+    .from("rooms")
+    .select("*")
+    .eq("id", currentRoomId)
+    .single();
+
+  if (roomError) {
+    showStatus("lobbyStatus", roomError.message);
+    return;
+  }
+
+  currentRoom = room;
+
+  if (room.status === "playing") {
+    if (pollInterval) clearInterval(pollInterval);
+    showGameScreen();
+    return;
+  }
+
+  const { data: players, error } = await supabaseClient
+    .from("room_players")
+    .select("*")
+    .eq("room_id", currentRoomId);
+
+  if (error) {
+    showStatus("lobbyStatus", error.message);
+    return;
+  }
+
+  const list = document.getElementById("playersList");
+  list.innerHTML = "";
+
+  players.forEach(player => {
+    const div = document.createElement("div");
+    div.className = "player" + (player.is_host ? " host" : "");
+    div.textContent = player.display_name +
+      (player.is_host ? "  ·  ODA SAHİBİ" : "");
+    list.appendChild(div);
+  });
+
+  showStatus(
+    "lobbyStatus",
+    players.length + " / " + room.max_players + " oyuncu"
+  );
+
+  document.getElementById("startButton").classList.toggle(
+    "hidden",
+    !isHost || players.length < 2
+  );
+}
+
+function copyRoomCode() {
+  if (!currentRoom) return;
+  navigator.clipboard.writeText(currentRoom.code);
+  showStatus("lobbyStatus", "Oda kodu kopyalandı!");
+}
+
+function copyInviteLink() {
+  if (!currentRoom) return;
+  const link = location.origin + location.pathname +
+    "?room=" + currentRoom.code;
+  navigator.clipboard.writeText(link);
+  showStatus("lobbyStatus", "Davet bağlantısı kopyalandı!");
+}
+
+function leaveToHome() {
+  if (pollInterval) clearInterval(pollInterval);
+  if (gamePollInterval) clearInterval(gamePollInterval);
+
+  currentRoom = null;
+  currentRoomId = null;
+  gameState = null;
+  isHost = false;
+
+  showPanel("homePanel");
+}
+
+function buildDeck() {
+  const deck = [];
+
+  for (let number = 0; number <= 9; number++) {
+    for (let i = 0; i < 4; i++) {
+      deck.push({
+        id: crypto.randomUUID(),
+        type: "NUMBER",
+        name: String(number),
+        points: number,
+        effect: "Sayı kartı",
+        symbol: String(number)
+      });
     }
+  }
 
-    const { data: room, error } = await supabaseClient
-      .from("rooms")
+  const moveCards = [
+    ["ÇALIM",4,15,"Rakibin elinden rastgele bir kart al.","↗"],
+    ["SIÇRAMA",3,15,"Sıradaki oyuncunun turunu atla.","⇢"],
+    ["YÖN",3,15,"Oyun yönünü tersine çevir.","↺"],
+    ["PAS",3,10,"Sıranı geçir ve bir kart çek.","⇥"],
+    ["TAKVİYE",4,15,"Bir kart daha çek.","＋"],
+    ["TAKAS",3,20,"Bir oyuncuyla elindeki kartları değiştir.","⇄"]
+  ];
+
+  moveCards.forEach(([name,count,points,effect,symbol]) => {
+    for (let i = 0; i < count; i++) {
+      deck.push({
+        id: crypto.randomUUID(),
+        type: "MOVE",
+        name, points, effect, symbol
+      });
+    }
+  });
+
+  const tacticCards = [
+    ["KOZ",3,20,"Bir sonraki hamlede ek avantaj kazan.","♛"],
+    ["BASKIN",3,25,"Rakiplerden birine iki kart çektir.","⚡"],
+    ["KİLİT",2,20,"Bir oyuncunun sonraki hamlesini kilitle.","▣"],
+    ["KOPYA",2,20,"Son oynanan hamlenin etkisini tekrar et.","⧉"],
+    ["İTTİFAK",2,15,"Bir oyuncuyla geçici iş birliği yap.","♧"],
+    ["MÜDAHALE",3,20,"Bir hamlenin etkisini iptal et.","✦"]
+  ];
+
+  tacticCards.forEach(([name,count,points,effect,symbol]) => {
+    for (let i = 0; i < count; i++) {
+      deck.push({
+        id: crypto.randomUUID(),
+        type: "TACTIC",
+        name, points, effect, symbol
+      });
+    }
+  });
+
+  const riskCards = [
+    ["YA HEP YA HİÇ",3,30,"Şansını dene: ödül de ceza da büyük.","☯"],
+    ["SON ŞANS",2,25,"Risk al ve elini güçlendirmeye çalış.","◈"],
+    ["ÇİFTE RİSK",3,25,"İki kat sonuç için risk al.","⚄"],
+    ["KATLA",2,20,"Puan etkisini ikiye katla.","×2"]
+  ];
+
+  riskCards.forEach(([name,count,points,effect,symbol]) => {
+    for (let i = 0; i < count; i++) {
+      deck.push({
+        id: crypto.randomUUID(),
+        type: "RISK",
+        name, points, effect, symbol
+      });
+    }
+  });
+
+  const specialCards = [
+    ["KAOS",1,40,"Herkesin elindeki kartlar karışır.","✹"],
+    ["SIFIRLA",1,35,"Bir oyuncunun puanını sıfırla.","０"],
+    ["HÜKÜM",1,40,"Bir oyuncuya ceza kartı ver.","⚖"],
+    ["SON SÖZ",1,35,"Turun son hamlesini sen yap.","✧"],
+    ["DEVİR",1,30,"Puanını başka oyuncuya devret.","⇄"]
+  ];
+
+  specialCards.forEach(([name,count,points,effect,symbol]) => {
+    for (let i = 0; i < count; i++) {
+      deck.push({
+        id: crypto.randomUUID(),
+        type: "SPECIAL",
+        name, points, effect, symbol
+      });
+    }
+  });
+
+  return shuffle(deck);
+}
+
+function shuffle(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+async function startGame() {
+  if (!isHost) return;
+
+  try {
+    showStatus("lobbyStatus", "Oyun hazırlanıyor...");
+
+    const { data: players, error } = await supabaseClient
+      .from("room_players")
       .select("*")
-      .eq("code", code)
-      .maybeSingle();
+      .eq("room_id", currentRoomId);
 
     if (error) throw error;
 
-    if (!room) {
-      showStatus("homeStatus", "Bu kodla bir oda bulunamadı.");
+    if (players.length < 2) {
+      showStatus("lobbyStatus", "En az iki oyuncu gerekli.");
       return;
     }
 
-    if (room.status !== "waiting") {
-      showStatus("homeStatus", "Bu oyun zaten başlamış.");
-      return;
-    }
+    const deck = buildDeck();
+    const hands = {};
 
-    const { data: existingPlayer, error: existingError } =
-      await supabaseClient
-        .from("room_players")
-        .select("*")
-        .eq("room_id", room.id)
-        .eq("user_id", currentUser.id)
-        .maybeSingle();
+    players.forEach(player => {
+      hands[player.user_id] = deck.splice(0, 5);
+    });
 
-    if (existingError) throw existingError;
+    const state = {
+      players: players.map(p => ({
+        id: p.user_id,
+        name: p.display_name,
+        score: 0
+      })),
+      hands,
+      deck,
+      discard: [],
+      currentTurn: 0,
+      direction: 1,
+      round: 1,
+      message: "Oyun başladı! İlk hamle sende.",
+      winner: null
+    };
 
-    if (!existingPlayer) {
-      const { count, error: countError } = await supabaseClient
-        .from("room_players")
-        .select("*", { count: "exact", head: true })
-        .eq("room_id", room.id);
+    const { error: stateError } = await supabaseClient
+      .from("vybe_game_states")
+      .insert({
+        room_id: currentRoomId,
+        state: state
+      });
 
-      if (countError) throw countError;
+    if (stateError) throw stateError;
 
-      if (count >= room.max_players) {
-        showStatus("homeStatus", "Bu oda dolu.");
-        return;
-      }
+    const { error: updateError } = await supabaseClient
+      .from("rooms")
+      .update({ status: "playing" })
+      .eq("id", currentRoomId);
 
-      const { error: insertError } = await supabaseClient
-        .from("room_players")
+    if (updateError) throw updateError;
+
+    gameState = state;
+    showGameScreen();
+
+  } catch (error) {
+    showStatus("lobbyStatus", "Hata: " + error.message);
+  }
+}
+
+function showGameScreen() {
+  showPanel("gamePanel");
+  document.getElementById("gameStatus").textContent = "VYBE ARENA";
+  loadGameState();
+
+  if (gamePollInterval) clearInterval(gamePollInterval);
+  gamePollInterval = setInterval(loadGameState, 2500);
+}
+
+async function loadGameState() {
+  if (!currentRoomId) return;
+
+  const { data, error } = await supabaseClient
+    .from("vybe_game_states")
+    .select("state")
+    .eq("room_id", currentRoomId)
+    .maybeSingle();
+
+  if (error || !data) return;
+
+  gameState = data.state;
+  renderGame();
+}
+
+function renderGame() {
+  if (!gameState) return;
+
+  const players = gameState.players;
+  const current = players[gameState.currentTurn];
+
+  document.getElementById("turnLabel").textContent =
+    "Tur " + gameState.round;
+
+  document.getElementById("currentTurnLabel").textContent =
+    current ? current.name : "-";
+
+  document.getElementById("gameMessage").textContent =
+    gameState.message || "";
+
+  document.getElementById("scoreBoard").innerHTML = "";
+
+  players.forEach((player,index) => {
+    const div = document.createElement("div");
+    div.className = "score-chip" +
+      (index === gameState.currentTurn ? " active" : "");
+
+    div.innerHTML =
+      "<strong>" + escapeHTML(player.name) + "</strong>" +
+      "<span>" + player.score + " puan</span>";
+
+    document.getElementById("scoreBoard").appendChild(div);
+  });
+
+  const lastCard = gameState.discard[gameState.discard.length - 1];
+
+  document.getElementById("discardPile").textContent =
+    lastCard ? lastCard.name : "VYBE.";
+
+  const hand = gameState.hands[currentUser.id] || [];
+  const handArea = document.getElementById("playerHand");
+  handArea.innerHTML = "";
+
+  const myTurn = current && current.id === currentUser.id &&
+    !gameState.winner;
+
+  hand.forEach(card => {
+    const button = document.createElement("button");
+    button.className = "move-card vybe-card";
+
+    if (card.type === "TACTIC") button.classList.add("card-tactic");
+    if (card.type === "RISK") button.classList.add("card-risk");
+    if (card.type === "SPECIAL") button.classList.add("card-special");
+    if (card.type === "NUMBER") button.classList.add("card-number-type");
+
+    button.disabled = !myTurn || gameBusy;
+
+    button.innerHTML = `
+      <div class="move-card-top">
+        <span>${escapeHTML(card.type)}</span>
+        <span>${card.points} P</span>
+      </div>
+      <div class="move-card-symbol">
+        ${card.type === "NUMBER" ? escapeHTML(card.name) : escapeHTML(card.symbol || "✦")}
+      </div>
+      <div class="move-card-title">${escapeHTML(card.name)}</div>
+      <div class="move-card-effect">${escapeHTML(card.effect)}</div>
+      <div class="move-card-play">KARTI OYNA</div>
+    `;
+
+    button.onclick = () => playCard(card.id);
+    handArea.appendChild(button);
+  });
+
+  document.getElementById("drawButton").disabled =
+    !myTurn || gameBusy || gameState.deck.length === 0;
+
+  if (gameState.winner) {
+    document.getElementById("gameStatus").textContent =
+      "KAZANAN: " + gameState.winner.name;
+  } else {
+    document.getElementById("gameStatus").textContent =
+      myTurn ? "SIRA SENDE!" : current.name + " oynuyor...";
+  }
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+          .from("room_players")
         .insert({
           room_id: room.id,
           user_id: currentUser.id,
@@ -1036,32 +979,289 @@ async function refreshLobby() {
 }
 
 function showGameScreen() {
-  if (pollInterval) {
-    clearInterval(pollInterval);
-    pollInterval = null;
-  }
-
+  if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
   showPanel("gamePanel");
-  showStatus("gameStatus", "Oyuncular arenada buluştu.");
+  loadGameState();
+  if (gamePollInterval) clearInterval(gamePollInterval);
+  gamePollInterval = setInterval(loadGameState, 2500);
+}
+
+function shuffle(array) {
+  const a = [...array];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildDeck() {
+  const deck = [];
+  let id = 0;
+  for (let n = 0; n <= 9; n++) {
+    for (let k = 0; k < 4; k++) deck.push({id:"n"+(++id),type:"NUMBER",name:String(n),value:n,effect:"Sayı kartı",points:n});
+  }
+  const add = (type,name,count,effect,points=5) => {
+    for(let k=0;k<count;k++) deck.push({id:"c"+(++id),type,name,effect,points});
+  };
+  add("MOVE","ÇALIM",4,"Hedef oyuncudan rastgele 1 kart al.",5);
+  add("MOVE","SIÇRAMA",3,"Bu karttan sonra bir kez daha oyna.",5);
+  add("MOVE","YÖN",3,"Oyun yönünü tersine çevir.",5);
+  add("MOVE","PAS",3,"Sıradaki oyuncunun turunu atlat.",5);
+  add("MOVE","TAKVİYE",4,"5 ek puan kazan.",10);
+  add("MOVE","TAKAS",3,"Bir oyuncuyla ellerini değiştir.",5);
+  add("TACTIC","KOZ",3,"8 puan kazan.",8);
+  add("TACTIC","BASKIN",3,"Hedeften 5 puan al.",5);
+  add("TACTIC","KİLİT",2,"Sıradaki oyuncunun turunu atlat.",5);
+  add("TACTIC","KOPYA",2,"Son kartın puan etkisini kopyala.",5);
+  add("TACTIC","İTTİFAK",2,"Sen ve seçtiğin oyuncu 5 puan kazanın.",5);
+  add("TACTIC","MÜDAHALE",3,"Hedeften rastgele 1 kart çek.",5);
+  add("RISK","YA HEP YA HİÇ",3,"Şansına göre +15 veya -5 puan.",0);
+  add("RISK","SON ŞANS",2,"100 puana en yakın oyuncu değilken +10, aksi hâlde +3.",10);
+  add("RISK","ÇİFTE RİSK",3,"Şansına göre +20 veya -10 puan.",0);
+  add("RISK","KATLA",2,"Bu kartın puan etkisini ikiye katla.",10);
+  add("SPECIAL","KAOS",1,"Herkesin elindeki kartları karıştır.",10);
+  add("SPECIAL","SIFIRLA",1,"Kendi puanını sıfırla.",0);
+  add("SPECIAL","HÜKÜM",1,"15 puan kazan.",15);
+  add("SPECIAL","SON SÖZ",1,"Elinde tek kart kaldıysa +20, değilse +5 puan.",5);
+  add("SPECIAL","DEVİR",1,"Hedeften 10 puan al.",10);
+  return shuffle(deck);
+}
+
+function effectSymbol(card) {
+  if(card.type==="NUMBER") return String(card.value);
+  const symbols = {MOVE:"↗",TACTIC:"✦",RISK:"⚡",SPECIAL:"✧"};
+  return symbols[card.type] || "V";
+}
+
+function cardClass(type) {
+  return type==="TACTIC" ? "card-tactic" :
+    type==="RISK" ? "card-risk" :
+    type==="SPECIAL" ? "card-special" :
+    type==="NUMBER" ? "card-number-type" : "";
 }
 
 async function startGame() {
-  if (!currentRoom || !isHost) return;
-
+  if (!currentRoom || !isHost || gameBusy) return;
+  gameBusy = true;
   try {
-    const { error } = await supabaseClient
-      .from("rooms")
-      .update({ status: "playing" })
-      .eq("id", currentRoomId);
+    const {data:players,error:playersError} = await supabaseClient
+      .from("room_players").select("*").eq("room_id",currentRoomId)
+      .order("joined_at",{ascending:true});
+    if(playersError) throw playersError;
+    if(!players || players.length<2) throw new Error("Başlamak için en az 2 oyuncu gerekli.");
 
-    if (error) throw error;
+    let deck = buildDeck();
+    const gamePlayers = players.map((p,i)=>({
+      id:p.user_id, name:p.display_name || `Oyuncu ${i+1}`,
+      hand:[], score:0, skipped:false
+    }));
+    gamePlayers.forEach(p=>{ for(let i=0;i<5;i++) p.hand.push(deck.pop()); });
 
-    currentRoom.status = "playing";
+    const state = {
+      version:1, status:"playing", players:gamePlayers, deck,
+      discard:[], currentIndex:0, direction:1, turn:1,
+      lastMessage:"Oyun başladı! İlk oyuncu kartını oynayabilir.",
+      lastPoints:0, winner:null
+    };
+
+    const {error:stateError} = await supabaseClient
+      .from("vybe_game_states").insert({room_id:currentRoomId,state});
+    if(stateError) throw stateError;
+
+    const {error:roomError} = await supabaseClient
+      .from("rooms").update({status:"playing"}).eq("id",currentRoomId);
+    if(roomError) throw roomError;
+    currentRoom.status="playing";
+    gameState=state;
     showGameScreen();
+  } catch(error) {
+    showStatus("lobbyStatus","Oyun başlatılamadı: "+error.message);
+  } finally { gameBusy=false; }
+}
 
-  } catch (error) {
-    showStatus("lobbyStatus", "Oyun başlatılamadı: " + error.message);
+async function loadGameState() {
+  if(!currentRoomId) return;
+  try {
+    const {data,error} = await supabaseClient.from("vybe_game_states")
+      .select("state").eq("room_id",currentRoomId).maybeSingle();
+    if(error) throw error;
+    if(!data || !data.state) return;
+    gameState=data.state;
+    renderGame();
+  } catch(error) {
+    showStatus("gameStatus","Oyun verisi alınamadı: "+error.message);
   }
+}
+
+function currentPlayer() {
+  return gameState?.players?.[gameState.currentIndex];
+}
+
+function renderGame() {
+  if(!gameState) return;
+  const me=gameState.players.find(p=>p.id===currentUser?.id);
+  const turn=currentPlayer();
+  const isMyTurn=!!me && turn?.id===me.id && !gameState.winner;
+  document.getElementById("turnLabel").textContent=gameState.turn;
+  document.getElementById("currentTurnLabel").textContent=turn?.name || "-";
+  document.getElementById("gameStatus").textContent=gameState.winner
+    ? `${gameState.winner.name} oyunu kazandı!`
+    : (isMyTurn ? "Sıra sende! Bir kart oyna." : `Sıra ${turn?.name || "oyuncuda"}.`);
+  document.getElementById("gameMessage").textContent=gameState.lastMessage || "";
+  const board=document.getElementById("scoreBoard");
+  board.innerHTML="";
+  gameState.players.forEach((p,i)=>{
+    const chip=document.createElement("div");
+    chip.className="score-chip"+(i===gameState.currentIndex?" active":"");
+    const strong=document.createElement("strong");
+    strong.textContent=p.name+(p.id===currentUser?.id?" (Sen)":"");
+    const span=document.createElement("span");
+    span.textContent=`${p.score} puan · ${p.hand.length} kart`;
+    chip.append(strong,span); board.appendChild(chip);
+  });
+  const top=gameState.discard[gameState.discard.length-1];
+  const discard=document.getElementById("discardPile");
+  discard.textContent=top ? `${top.name} · ${top.type}` : "VYBE.";
+  const hand=document.getElementById("playerHand");
+  hand.innerHTML="";
+  if(!me) {
+    hand.textContent="Bu oyunda oyuncu olarak görünmüyorsun.";
+  } else {
+    me.hand.forEach(card=>{
+      const el=document.createElement("div");
+      el.className=`move-card vybe-card ${cardClass(card.type)}`;
+      const topLine=document.createElement("div"); topLine.className="move-card-top";
+      const cat=document.createElement("span"); cat.textContent=card.type;
+      const logo=document.createElement("span"); logo.textContent="VYBE.";
+      topLine.append(cat,logo);
+      const sym=document.createElement("div"); sym.className="move-card-symbol";
+      sym.textContent=effectSymbol(card);
+      const title=document.createElement("div"); title.className="move-card-title";
+      title.textContent=card.name;
+      const effect=document.createElement("div"); effect.className="move-card-effect";
+      effect.textContent=card.effect;
+      const btn=document.createElement("button"); btn.className="move-card-play";
+      btn.textContent=isMyTurn?"KARTI OYNA":"SIRA BEKLENİYOR";
+      btn.disabled=!isMyTurn || gameBusy;
+      btn.onclick=()=>playCard(card.id);
+      el.append(topLine,sym,title,effect,btn); hand.appendChild(el);
+    });
+  }
+  document.getElementById("drawButton").disabled=!isMyTurn || gameBusy || gameState.deck.length===0;
+}
+
+function nextIndex(state,steps=1) {
+  const n=state.players.length;
+  let idx=state.currentIndex;
+  for(let i=0;i<steps;i++) {
+    idx=(idx+state.direction+n)%n;
+    let guard=0;
+    while(state.players[idx].skipped && guard<n) {
+      state.players[idx].skipped=false;
+      idx=(idx+state.direction+n)%n;
+      guard++;
+    }
+  }
+  return idx;
+}
+
+async function saveGameState(state) {
+  const {error}=await supabaseClient.from("vybe_game_states")
+    .update({state,updated_at:new Date().toISOString()})
+    .eq("room_id",currentRoomId);
+  if(error) throw error;
+  gameState=state; renderGame();
+}
+
+async function drawCard() {
+  if(gameBusy || !gameState) return;
+  const me=currentPlayer();
+  if(me?.id!==currentUser.id || !gameState.deck.length) return;
+  gameBusy=true;
+  try {
+    const state=structuredClone(gameState);
+    const player=state.players[state.currentIndex];
+    player.hand.push(state.deck.pop());
+    state.lastMessage=`${player.name} bir kart çekti ve turunu tamamladı.`;
+    state.currentIndex=nextIndex(state);
+    state.turn++;
+    await saveGameState(state);
+  } catch(e) { showStatus("gameStatus","Kart çekilemedi: "+e.message); }
+  finally { gameBusy=false; renderGame(); }
+}
+
+async function playCard(cardId) {
+  if(gameBusy || !gameState || gameState.winner) return;
+  const live=gameState.players[gameState.currentIndex];
+  if(live?.id!==currentUser.id) return;
+  const meIndex=gameState.currentIndex;
+  const state=structuredClone(gameState);
+  const player=state.players[meIndex];
+  const cardIndex=player.hand.findIndex(c=>c.id===cardId);
+  if(cardIndex<0) return;
+  gameBusy=true;
+  try {
+    const card=player.hand.splice(cardIndex,1)[0];
+    const others=state.players.filter(p=>p.id!==player.id);
+    const target=others.length ? others[(Math.random()*others.length)|0] : null;
+    const next=state.players[nextIndex(state)];
+    let points=card.points||0, extraTurn=false, skipNext=false;
+    const randomCard=(from,to)=>{
+      if(from?.hand?.length) to.hand.push(from.hand.splice((Math.random()*from.hand.length)|0,1)[0]);
+    };
+    switch(card.name) {
+      case "ÇALIM": randomCard(target,player); break;
+      case "SIÇRAMA": extraTurn=true; break;
+      case "YÖN": state.direction*=-1; break;
+      case "PAS": skipNext=true; break;
+      case "TAKVİYE": points=10; break;
+      case "TAKAS":
+        if(target) [player.hand,target.hand]=[target.hand,player.hand];
+        break;
+      case "KOZ": points=8; break;
+      case "BASKIN":
+        if(target){const stolen=Math.min(5,target.score);target.score-=stolen;points+=stolen;}
+        break;
+      case "KİLİT": skipNext=true; break;
+      case "KOPYA": points=state.lastPoints||5; break;
+      case "İTTİFAK":
+        player.score+=5;if(target)target.score+=5;points=0;break;
+      case "MÜDAHALE": randomCard(target,player); break;
+      case "YA HEP YA HİÇ":
+        points=Math.random()<.5?15:-5;break;
+      case "SON ŞANS":
+        points=Math.max(...state.players.map(p=>p.score))<player.score+10?3:10;break;
+      case "ÇİFTE RİSK":
+        points=Math.random()<.5?20:-10;break;
+      case "KATLA": points=card.points*2;break;
+      case "KAOS":
+        {const all=shuffle(state.players.flatMap(p=>p.hand));state.players.forEach(p=>p.hand=[]);all.forEach((c,i)=>state.players[i%state.players.length].hand.push(c));}
+        break;
+      case "SIFIRLA": player.score=0;points=0;break;
+      case "HÜKÜM": points=15;break;
+      case "SON SÖZ": points=player.hand.length===0?20:5;break;
+      case "DEVİR":
+        if(target){const taken=Math.min(10,target.score);target.score-=taken;points+=taken;}
+        break;
+    }
+    player.score+=points;
+    state.lastPoints=points;
+    state.discard.push(card);
+    state.lastMessage=`${player.name}, ${card.name} oynadı${points?` (${points>0?"+":""}${points} puan)`:""}.`;
+    if(player.score>=100) {
+      state.winner={id:player.id,name:player.name};
+      state.status="finished";
+    } else {
+      if(skipNext) next.skipped=true;
+      if(!extraTurn) { state.currentIndex=nextIndex(state); state.turn++; }
+    }
+    await saveGameState(state);
+    if(state.winner) {
+      await supabaseClient.from("rooms").update({status:"finished"}).eq("id",currentRoomId);
+    }
+  } catch(e) { showStatus("gameStatus","Hamle kaydedilemedi: "+e.message); }
+  finally { gameBusy=false; renderGame(); }
 }
 
 async function copyText(text) {
@@ -1112,7 +1312,12 @@ function leaveToHome() {
     clearInterval(pollInterval);
     pollInterval = null;
   }
+  if (gamePollInterval) {
+    clearInterval(gamePollInterval);
+    gamePollInterval = null;
+  }
 
+  gameState = null;
   currentRoom = null;
   currentRoomId = null;
   isHost = false;
